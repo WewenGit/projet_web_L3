@@ -1,0 +1,20 @@
+
+###> symfony/framework-bundle ###
+projet_web/.env.local
+projet_web/.env.local.php
+projet_web/.env.*.local
+projet_web/config/secrets/prod/prod.decrypt.private.php
+projet_web/public/bundles/
+projet_web/var/
+projet_web/vendor/
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+projet_web/phpunit.xml
+projet_web/.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> symfony/phpunit-bridge ###
+projet_web/.phpunit.result.cache
+projet_web/phpunit.xml
+###< symfony/phpunit-bridge ###
