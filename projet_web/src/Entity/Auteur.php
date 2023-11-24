@@ -37,7 +37,7 @@ class Auteur
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $biographie = null;
 
-    #[ORM\ManyToMany(targetEntity: livre::class, inversedBy: 'idAuteur')]
+    #[ORM\ManyToMany(targetEntity: Livre::class, inversedBy: 'idAuteur')]
     private Collection $idLivre;
 
     public function __construct()
@@ -135,7 +135,7 @@ class Auteur
     }
 
     /**
-     * @return Collection<int, livre>
+     * @return Collection<int, Livre>
      */
     public function getIdLivre(): Collection
     {

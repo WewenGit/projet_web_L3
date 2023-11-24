@@ -21,11 +21,11 @@ class Critique
 
     #[ORM\ManyToOne(inversedBy: 'critiques')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?utilisateur $idUtilisateur = null;
+    private ?Utilisateur $idUtilisateur = null;
 
     #[ORM\ManyToOne(inversedBy: 'critiques')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?livre $idLivre = null;
+    private ?Livre $idLivre = null;
 
     public function getId(): ?int
     {
@@ -56,24 +56,24 @@ class Critique
         return $this;
     }
 
-    public function getIdUtilisateur(): ?utilisateur
+    public function getIdUtilisateur(): ?Utilisateur
     {
         return $this->idUtilisateur;
     }
 
-    public function setIdUtilisateur(?utilisateur $idUtilisateur): static
+    public function setIdUtilisateur(?Utilisateur $idUtilisateur): static
     {
         $this->idUtilisateur = $idUtilisateur;
 
         return $this;
     }
 
-    public function getIdLivre(): ?livre
+    public function getIdLivre(): ?Livre
     {
         return $this->idLivre;
     }
 
-    public function setIdLivre(?livre $idLivre): static
+    public function setIdLivre(?Livre $idLivre): static
     {
         $this->idLivre = $idLivre;
 
