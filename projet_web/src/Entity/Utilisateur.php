@@ -3,64 +3,43 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BLOB)]
-    private $photoProfil = null;
-
-    #[ORM\Column(length: 25)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $pseudo = null;
+
+    #[ORM\Column]
+    private array $roles = [];
+
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
+
+    #[ORM\Column(type: Types::BLOB)]
+    private $photo_profil = null;
 
     #[ORM\Column(length: 255)]
     private ?string $mail = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $mdp = null;
-
-    #[ORM\Column]
-    private ?bool $estAdmin = null;
-
-    #[ORM\OneToMany(mappedBy: 'idUtilisateur', targetEntity: Critique::class)]
-    private Collection $critiques;
-
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?auteur $idAuteur = null;
-
-    #[ORM\OneToMany(mappedBy: 'idUtilisateur', targetEntity: Liste::class)]
-    private Collection $listes;
-
-    public function __construct()
-    {
-        $this->critiques = new ArrayCollection();
-        $this->listes = new ArrayCollection();
-    }
+    private ?auteur $id_auteur = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPhotoProfil()
-    {
-        return $this->photoProfil;
-    }
-
-    public function setPhotoProfil($photoProfil): static
-    {
-        $this->photoProfil = $photoProfil;
-
-        return $this;
     }
 
     public function getPseudo(): ?string
@@ -71,6 +50,71 @@ class Utilisateur
     public function setPseudo(string $pseudo): static
     {
         $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->pseudo;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getPhotoProfil()
+    {
+        return $this->photo_profil;
+    }
+
+    public function setPhotoProfil($photo_profil): static
+    {
+        $this->photo_profil = $photo_profil;
 
         return $this;
     }
@@ -87,98 +131,14 @@ class Utilisateur
         return $this;
     }
 
-    public function getMdp(): ?string
-    {
-        return $this->mdp;
-    }
-
-    public function setMdp(string $mdp): static
-    {
-        $this->mdp = $mdp;
-
-        return $this;
-    }
-
-    public function isEstAdmin(): ?bool
-    {
-        return $this->estAdmin;
-    }
-
-    public function setEstAdmin(bool $estAdmin): static
-    {
-        $this->estAdmin = $estAdmin;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Critique>
-     */
-    public function getCritiques(): Collection
-    {
-        return $this->critiques;
-    }
-
-    public function addCritique(Critique $critique): static
-    {
-        if (!$this->critiques->contains($critique)) {
-            $this->critiques->add($critique);
-            $critique->setIdUtilisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCritique(Critique $critique): static
-    {
-        if ($this->critiques->removeElement($critique)) {
-            // set the owning side to null (unless already changed)
-            if ($critique->getIdUtilisateur() === $this) {
-                $critique->setIdUtilisateur(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getIdAuteur(): ?auteur
     {
-        return $this->idAuteur;
+        return $this->id_auteur;
     }
 
-    public function setIdAuteur(?auteur $idAuteur): static
+    public function setIdAuteur(?auteur $id_auteur): static
     {
-        $this->idAuteur = $idAuteur;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Liste>
-     */
-    public function getListes(): Collection
-    {
-        return $this->listes;
-    }
-
-    public function addListe(Liste $liste): static
-    {
-        if (!$this->listes->contains($liste)) {
-            $this->listes->add($liste);
-            $liste->setIdUtilisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeListe(Liste $liste): static
-    {
-        if ($this->listes->removeElement($liste)) {
-            // set the owning side to null (unless already changed)
-            if ($liste->getIdUtilisateur() === $this) {
-                $liste->setIdUtilisateur(null);
-            }
-        }
+        $this->id_auteur = $id_auteur;
 
         return $this;
     }
