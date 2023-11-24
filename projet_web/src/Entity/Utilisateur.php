@@ -37,7 +37,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $mail = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?auteur $id_auteur = null;
+    private ?Auteur $id_auteur = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
