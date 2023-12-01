@@ -20,7 +20,7 @@ class Liste
 
     #[ORM\ManyToOne(inversedBy: 'listes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?utilisateur $idUtilisateur = null;
+    private ?Utilisateur $idUtilisateur = null;
 
     #[ORM\ManyToMany(targetEntity: Livre::class, inversedBy: 'idListe')]
     private Collection $idLivre;
@@ -47,12 +47,12 @@ class Liste
         return $this;
     }
 
-    public function getIdUtilisateur(): ?utilisateur
+    public function getIdUtilisateur(): ?Utilisateur
     {
         return $this->idUtilisateur;
     }
 
-    public function setIdUtilisateur(?utilisateur $idUtilisateur): static
+    public function setIdUtilisateur(?Utilisateur $idUtilisateur): static
     {
         $this->idUtilisateur = $idUtilisateur;
 

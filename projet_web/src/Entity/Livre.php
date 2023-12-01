@@ -7,14 +7,20 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
+#[Vich\Uploadable]
 class Livre
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[Vich\UploadableField(mapping: 'livres', fileNameProperty: 'couverture')]
+    private ?File $ficherImage = null;
 
     #[ORM\Column(length: 100)]
     private ?string $couverture = null;
@@ -53,6 +59,22 @@ class Livre
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setFichierImage(?File $imageFile = null): void
+    {
+        $this->fichierImage = $fichierImage;
+
+        if (null !== $fichierImage) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getFichierImage(): ?File
+    {
+        return $this->fichierImage;
     }
 
     public function getCouverture()
