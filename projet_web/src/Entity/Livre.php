@@ -25,6 +25,10 @@ class Livre
     #[ORM\Column(length: 100)]
     private ?string $couverture = null;
 
+    //Champ obligatoire à ajouter pour pouvoir update des fichiers dans la BDD
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $majCouverture = null;
+
     #[ORM\Column(length: 100)]
     private ?string $titre = null;
 
@@ -88,6 +92,16 @@ class Livre
 
         return $this;
     }
+
+    public function setMajCouverture(?\DateTimeInterface $majCouverture)
+    {
+        $this->majCouverture = $majCouverture;
+    }
+
+    public function getMajCouverture(): ?\DateTimeInterface
+    {
+        return $this->majCouverture;
+    }   
 
     public function getTitre(): ?string
     {
