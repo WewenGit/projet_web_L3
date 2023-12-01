@@ -22,7 +22,7 @@ class Liste
     #[ORM\JoinColumn(nullable: false)]
     private ?utilisateur $idUtilisateur = null;
 
-    #[ORM\ManyToMany(targetEntity: livre::class, inversedBy: 'idListe')]
+    #[ORM\ManyToMany(targetEntity: Livre::class, inversedBy: 'idListe')]
     private Collection $idLivre;
 
     public function __construct()
