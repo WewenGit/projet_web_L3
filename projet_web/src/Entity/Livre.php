@@ -29,10 +29,10 @@ class Livre
     private Collection $critiques;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
-    private ?genre $idGenre = null;
+    private ?Genre $idGenre = null;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
-    private ?editeur $idEditeur = null;
+    private ?Editeur $idEditeur = null;
 
     #[ORM\ManyToMany(targetEntity: Auteur::class, mappedBy: 'idLivre')]
     private Collection $idAuteur;
