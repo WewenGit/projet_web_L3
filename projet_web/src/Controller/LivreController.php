@@ -30,6 +30,9 @@ class LivreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($livre->getCouverture() == null)
+                $livre->setCouverture('default.jpg');
+            $livre->setValide(1);
             $entityManager->persist($livre);
             $entityManager->flush();
 

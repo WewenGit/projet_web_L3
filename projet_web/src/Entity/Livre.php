@@ -20,7 +20,7 @@ class Livre
     private ?int $id = null;
 
     #[Vich\UploadableField(mapping: 'livres', fileNameProperty: 'couverture')]
-    private ?File $ficherImage = null;
+    private ?File $fichierImage = null;
 
     #[ORM\Column(length: 100)]
     private ?string $couverture = null;
@@ -65,7 +65,7 @@ class Livre
         return $this->id;
     }
 
-    public function setFichierImage(?File $imageFile = null): void
+    public function setFichierImage(?File $fichierImage = null): void
     {
         $this->fichierImage = $fichierImage;
 
