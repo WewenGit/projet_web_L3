@@ -12,9 +12,12 @@ class ListeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nomListe')
-            ->add('idUtilisateur')
-            ->add('idLivre')
+            ->add('nomListe', null, [
+                'label' => 'Nom : ',
+            ])
+            ->add('idLivre', null, [
+                'label' => 'Ajouter un livre : ',
+            ])
         ;
     }
 
