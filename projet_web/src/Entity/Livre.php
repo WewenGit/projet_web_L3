@@ -40,6 +40,9 @@ class Livre
     #[ORM\ManyToMany(targetEntity: Liste::class, mappedBy: 'idLivre')]
     private Collection $idListe;
 
+    #[ORM\Column]
+    private ?bool $valide = null;
+
     public function __construct()
     {
         $this->critiques = new ArrayCollection();
@@ -192,6 +195,18 @@ class Livre
         if ($this->idListe->removeElement($idListe)) {
             $idListe->removeIdLivre($this);
         }
+
+        return $this;
+    }
+
+    public function isValide(): ?bool
+    {
+        return $this->valide;
+    }
+
+    public function setValide(bool $valide): static
+    {
+        $this->valide = $valide;
 
         return $this;
     }
