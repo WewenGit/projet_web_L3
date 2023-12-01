@@ -30,8 +30,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(type: Types::BLOB)]
-    private $photo_profil = null;
+    #[ORM\Column(length: 255)]
+    private ?string $photo_profil = null;
 
     #[ORM\Column(length: 255)]
     private ?string $mail = null;

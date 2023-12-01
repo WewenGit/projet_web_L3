@@ -16,8 +16,8 @@ class Auteur
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BLOB)]
-    private $photoAuteur = null;
+    #[ORM\Column(length: 255)]
+    private ?string $photoAuteur = null;
 
     #[ORM\Column(length: 60, nullable: true)]
     private ?string $nom = null;
