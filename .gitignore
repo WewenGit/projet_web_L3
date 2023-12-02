@@ -18,3 +18,5 @@ projet_web/.phpunit.result.cache
 projet_web/.phpunit.result.cache
 projet_web/phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+vendor/
