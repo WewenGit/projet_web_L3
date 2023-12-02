@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catalogue de livres{% endblock %}
+
+{% block body %}
+    <h1>Catalogue de livres</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Couverture</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Genre</th>
+                <th>Editeur</th>
+                <th>Nombre de pages</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for livre in livres %}
+            <tr>
+                <td>{{ livre.id }}</td>
+                <td>
+                    {% if vich_uploader_asset(livre, 'fichierImage') is null %}
+                        <img src="{{ asset('images/couverture/default.jpg') }}" alt="Couverture de livre par défaut" /> 
+                    {% else %}
+                        <img src="{{ vich_uploader_asset(livre, 'fichierImage')}}" style="width:20%;" alt="Couverture de livre">
+                    {% endif %}
+                </td>
+                <td>{{ livre.titre }}</td>
+                <td>
+                {% for auteur in livre.idAuteur %}
+                    {{ auteur.nom }} {{auteur.prenom }}
+                    <br>
+                {% endfor %}
+                </td>
+                <td>{{ livre.idGenre ? livre.idGenre.libelle : 'Genre non renseigné' }}</td>
+                <td>{{ livre.idEditeur ? livre.idEditeur.nomEditeur : 'Editeur inconnu' }}</td>
+                <td>{{ livre.nbPages }}</td>
+                <td>
+                    <a href="{{ path('app_livre_show', {'id': livre.id}) }}">Consulter le profil du livre</a>
+                    <br>
+                    <a href="{{ path('app_livre_edit', {'id': livre.id}) }}">Modifier le livre</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_livre_new') }}">Votre livre n'apparait pas dans notre catalogue ? Suggérer un livre</a>
+{% endblock %}

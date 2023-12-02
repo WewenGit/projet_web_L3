@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{livre.titre}}{% endblock %}
+
+{% block body %}
+    <h1>{{livre.titre}}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ livre.id }}</td>
+            </tr>
+            <tr>
+                <th>Couverture</th>
+                <td>
+                {% if vich_uploader_asset(livre, 'fichierImage') is null %}
+                        <img src="{{ asset('images/couverture/default.jpg') }}" alt="Couverture de livre par défaut" /> 
+                    {% else %}
+                        <img src="{{ vich_uploader_asset(livre, 'fichierImage')}}" style="width:20%;" alt="Couverture de livre">
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ livre.titre }}</td>
+            </tr>
+            <tr>
+                <th>Nombre de pages</th>
+                <td>{{ livre.nbPages }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_livre_index') }}">Retourner au catalogue</a>
+    <br>
+    <a href="{{ path('app_livre_edit', {'id': livre.id}) }}">Modifier le livre</a>
+
+    {{ include('livre/_delete_form.html.twig') }}
+{% endblock %}
