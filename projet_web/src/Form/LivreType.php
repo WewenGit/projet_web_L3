@@ -16,15 +16,14 @@ class LivreType extends AbstractType
             ->add('fichierImage', VichImageType::class, [
                 'label' => 'Couverture du livre',
                 'required' => false,
-                'allow_delete' => true,
+                'allow_delete' => false,
                 'delete_label' => 'Supprimer l\'image',
-                'download_label' => true,])
+                'download_label' => false,])
             ->add('titre')
             ->add('nbPages')
             ->add('idGenre')
             ->add('idEditeur')
             ->add('idAuteur')
-            ->add('idListe')
         ;
     }
 

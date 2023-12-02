@@ -37,7 +37,7 @@ class Auteur
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $biographie = null;
 
-    #[ORM\ManyToMany(targetEntity: Livre::class, inversedBy: 'idAuteur')]
+    #[ORM\ManyToMany(targetEntity: Livre::class, mappedBy: 'idAuteur')]
     private Collection $idLivre;
 
     public function __construct()
@@ -156,5 +156,13 @@ class Auteur
         $this->idLivre->removeElement($idLivre);
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        if ($this->nom == null)
+            return $this->prenom;
+        else
+            return $this->nom.' '.$this->prenom;
     }
 }

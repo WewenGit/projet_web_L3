@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Livre;
 use App\Form\LivreType;
 use App\Repository\LivreRepository;
+use App\Repository\AuteurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class LivreController extends AbstractController
 {
     #[Route('/', name: 'app_livre_index', methods: ['GET'])]
-    public function index(LivreRepository $livreRepository): Response
+    public function index(LivreRepository $livreRepository, AuteurRepository $auteurRepository): Response
     {
         return $this->render('livre/index.html.twig', [
             'livres' => $livreRepository->findAll(),
+            'auteurs' => $auteurRepository->findAll()
         ]);
     }
 
@@ -33,6 +35,7 @@ class LivreController extends AbstractController
             if ($livre->getCouverture() == null)
                 $livre->setCouverture('default.jpg');
             $livre->setValide(1);
+
             $entityManager->persist($livre);
             $entityManager->flush();
 

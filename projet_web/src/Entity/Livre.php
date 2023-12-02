@@ -44,7 +44,7 @@ class Livre
     #[ORM\ManyToOne(inversedBy: 'livres')]
     private ?Editeur $idEditeur = null;
 
-    #[ORM\ManyToMany(targetEntity: Auteur::class, mappedBy: 'idLivre')]
+    #[ORM\ManyToMany(targetEntity: Auteur::class, inversedBy: 'idLivre')]
     private Collection $idAuteur;
 
     #[ORM\ManyToMany(targetEntity: Liste::class, mappedBy: 'idLivre')]
