@@ -19,7 +19,7 @@ class LivreController extends AbstractController
     public function index(LivreRepository $livreRepository, AuteurRepository $auteurRepository): Response
     {
         return $this->render('livre/index.html.twig', [
-            'livres' => $livreRepository->findAll(),
+            'livres' => $livreRepository->findValide(),
         ]);
     }
 
