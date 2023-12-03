@@ -42,7 +42,9 @@
                 <td>
                     <a href="{{ path('app_livre_show', {'id': livre.id}) }}">Consulter le profil du livre</a>
                     <br>
-                    <a href="{{ path('app_livre_edit', {'id': livre.id}) }}">Modifier le livre</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_livre_edit', {'id': livre.id}) }}">Modifier le livre</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -52,6 +54,9 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_livre_new') }}">Votre livre n'apparait pas dans notre catalogue ? Suggérer un livre</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_livre_new') }}">Ajouter un livre</a>
+    {% else %}
+        <a href="{{ path('app_livre_suggestion') }}">Votre livre n'apparait pas dans notre catalogue ? Suggérer un livre</a>
+    {% endif %}
 {% endblock %}

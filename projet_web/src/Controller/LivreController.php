@@ -20,7 +20,6 @@ class LivreController extends AbstractController
     {
         return $this->render('livre/index.html.twig', [
             'livres' => $livreRepository->findAll(),
-            'auteurs' => $auteurRepository->findAll()
         ]);
     }
 
@@ -48,6 +47,30 @@ class LivreController extends AbstractController
         ]);
     }
 
+    #[Route('/suggestion', name: 'app_livre_suggestion', methods: ['GET', 'POST'])]
+    public function suggestion(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $livre = new Livre();
+        $form = $this->createForm(LivreType::class, $livre);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($livre->getCouverture() == null)
+                $livre->setCouverture('default.jpg');
+            $livre->setValide(0);
+
+            $entityManager->persist($livre);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_livre_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('livre/new.html.twig', [
+            'livre' => $livre,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_livre_show', methods: ['GET'])]
     public function show(Livre $livre): Response
     {
@@ -59,6 +82,7 @@ class LivreController extends AbstractController
     #[Route('/{id}/edit', name: 'app_livre_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_AUTEUR');
         $form = $this->createForm(LivreType::class, $livre);
         $form->handleRequest($request);
 
