@@ -16,11 +16,14 @@ INSERT INTO `editeur` (`nom_editeur`, `date_creation`) VALUES
 
 INSERT INTO `livre` (`id_genre_id`, `id_editeur_id`, `couverture`, `titre`, `nb_pages`, `valide`, `maj_couverture`) VALUES
 (1, 1, 'default.jpg', 'TitreLivre1', 5, 1, NULL),
-(2, 3, 'default.jpg', 'TitreLivre2', 265, 1, NULL);
+(2, 3, 'default.jpg', 'TitreLivre2', 265, 1, NULL),
+(3, 3, 'default.jpg', 'TitreLivre3', 204, 0, NULL);
 
 INSERT INTO `livre_auteur` (`auteur_id`, `livre_id`) VALUES
 (1, 1),
-(2, 1);
+(2, 1),
+(2, 2),
+(3, 3);
 
 #UtilisateurTest, mdp : motdepasse
 #Admin, mdp : motdepasse
