@@ -1,16 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Catalogue de livres{% endblock %}
+{% block title %}Catalogue de livres en attente de validation{% endblock %}
 
 {% block body %}
-    <h1>Catalogue de livres</h1>
+    <h1>Catalogue de livres en attente de validation</h1>
 
     <table class="table">
         <thead>
             <tr>   
-                {% if is_granted('ROLE_ADMIN') %}
-                    <th>Id</th>
-                {% endif %}
+                <th>Id</th>
                 <th>Couverture</th>
                 <th>Titre</th>
                 <th>Auteur</th>
@@ -23,9 +21,7 @@
         <tbody>
         {% for livre in livres %}
             <tr>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <td>{{ livre.id }}</td>
-                {% endif %}
+                <td>{{ livre.id }}</td>
                 <td>
                     {% if vich_uploader_asset(livre, 'fichierImage') is null %}
                         <img src="{{ asset('images/couverture/default.jpg') }}" alt="Couverture de livre par défaut" /> 
@@ -46,9 +42,7 @@
                 <td>
                     <a href="{{ path('app_livre_show', {'id': livre.id}) }}">Consulter le profil du livre</a>
                     <br>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('app_livre_edit', {'id': livre.id}) }}">Modifier le livre</a>
-                    {% endif %}
+                    <a href="{{ path('app_livre_edit', {'id': livre.id}) }}">Modifier le livre</a>
                 </td>
             </tr>
         {% else %}
@@ -58,9 +52,4 @@
         {% endfor %}
         </tbody>
     </table>
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('app_livre_new') }}">Ajouter un livre</a>
-    {% else %}
-        <a href="{{ path('app_livre_suggestion') }}">Votre livre n'apparait pas dans notre catalogue ? Suggérer un livre</a>
-    {% endif %}
 {% endblock %}
