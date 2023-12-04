@@ -5,6 +5,10 @@
 {% block body %}
     <h1>Catalogue de livres</h1>
 
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_livre_valider') }}">Consulter les livres en attente de validation</a>
+    {% endif %}
+
     <table class="table">
         <thead>
             <tr>   
