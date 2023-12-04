@@ -21,6 +21,26 @@ class LivreRepository extends ServiceEntityRepository
         parent::__construct($registry, Livre::class);
     }
 
+    public function findValide(): array
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.valide = :val')
+            ->setParameter('val', 1)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAValider(): array
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.valide = :val')
+            ->setParameter('val', 0)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Livre[] Returns an array of Livre objects
 //     */
