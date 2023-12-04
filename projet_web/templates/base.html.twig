@@ -16,11 +16,30 @@
         
             {% include "header.html.twig" %}
 
-            <div>
-                La div principale
-                <div>Div profils actifs</div>
-                <div>Div livres par genres</div>
-                <div>Div livres dans bcp de listes</div>
+            <div class="principal_div">
+                <div class="div-profils-actifs">
+                    Profils actifs
+                    <a href="{{ path('app_profil_detail') }}" class="btn rounded-pill btn-search px-3">Profil 1</a>
+                    <a href="{{ path('app_profil_detail') }}" class="btn rounded-pill btn-search px-3">Profil 2</a>
+                    <a href="{{ path('app_profil_detail') }}" class="btn rounded-pill btn-search px-3">Profil 3</a>
+                    <a href="{{ path('app_profil_detail') }}" class="btn rounded-pill btn-search px-3">Profil 4</a>
+                </div>
+                <div class="div-livres-genres">
+                    Livres / genres
+                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Genre 1</a>
+                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Genre 2</a>
+                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Genre 3</a>
+                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Genre 4</a>
+                </div>
+                </n>
+                <div class="div-livres-lotoflistes">
+                    Liste livres bcp de listes
+                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Livre 1</a> 
+                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Livre 2</a>
+                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Livre 3</a>
+                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Livre 4</a>
+                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Livre 5</a>   
+                </div>
             </div>
 
             {% include "footer.html.twig" %}
