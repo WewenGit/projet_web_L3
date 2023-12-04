@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Livre;
 use App\Form\LivreType;
 use App\Repository\LivreRepository;
-use App\Repository\AuteurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,12 +14,20 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/livre')]
 class LivreController extends AbstractController
 {
-    #[Route('/', name: 'app_livre_index', methods: ['GET'])]
-    public function index(LivreRepository $livreRepository, AuteurRepository $auteurRepository): Response
+    #[Route(['/'], name: 'app_livre_index', methods: ['GET'])]
+    #[Route(['/valider'], name: 'app_livre_valider', methods: ['GET'])]
+    public function index(LivreRepository $livreRepository, Request $request): Response
     {
-        return $this->render('livre/index.html.twig', [
-            'livres' => $livreRepository->findValide(),
-        ]);
+        $route = $request->attributes->get('_route');;
+        if ($route == 'app_livre_valider') {
+            return $this->render('livre/valider.html.twig', [
+                'livres' => $livreRepository->findAValider(),
+            ]);
+        } else {
+            return $this->render('livre/index.html.twig', [
+                'livres' => $livreRepository->findValide(),
+            ]);
+        }
     }
 
     #[Route('/new', name: 'app_livre_new', methods: ['GET', 'POST'])]
@@ -109,11 +116,12 @@ class LivreController extends AbstractController
         return $this->redirectToRoute('app_livre_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/valider', name: 'app_livre_valider', methods: ['GET'])]
-    public function valider(LivreRepository $livreRepository): Response
+    #[Route('/{id}/validation', name: 'app_livre_validation', methods: ['GET'])]
+    public function valider(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('livre/valider.html.twig', [
-            'livres' => $livreRepository->findAValider(),
-        ]);
+        $livre->setValide(1);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_livre_valider', [], Response::HTTP_SEE_OTHER);
     }
 }

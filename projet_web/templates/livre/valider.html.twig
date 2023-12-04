@@ -43,6 +43,10 @@
                     <a href="{{ path('app_livre_show', {'id': livre.id}) }}">Consulter le profil du livre</a>
                     <br>
                     <a href="{{ path('app_livre_edit', {'id': livre.id}) }}">Modifier le livre</a>
+                    <br>
+                    <form method="get" action="{{ path('app_livre_validation', {'id': livre.id}) }}">
+                        <input type="submit" value="Valider">
+                    </form>
                 </td>
             </tr>
         {% else %}
