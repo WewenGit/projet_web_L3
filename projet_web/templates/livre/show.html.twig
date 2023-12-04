@@ -31,8 +31,11 @@
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_livre_index') }}">Retourner au catalogue</a>
+    {% if route == 'app_livre_showv' %}
+        <a href="{{ path('app_livre_valider') }}">Retourner au catalogue de validation</a>
+    {% else %}
+        <a href="{{ path('app_livre_index') }}">Retourner au catalogue</a>
+    {% endif %}
     {% if is_granted('ROLE_ADMIN') %}
         <br>
         <a href="{{ path('app_livre_edit', {'id': livre.id}) }}">Modifier le livre</a>

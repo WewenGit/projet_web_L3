@@ -79,41 +79,54 @@ class LivreController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_livre_show', methods: ['GET'])]
-    public function show(Livre $livre): Response
+    #[Route('/{id}/v', name: 'app_livre_showv', methods: ['GET'])]
+    public function show(Livre $livre, Request $request): Response
     {
+        $route = $request->attributes->get('_route');
         return $this->render('livre/show.html.twig', [
             'livre' => $livre,
+            'route' => $route,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_livre_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/editv', name: 'app_livre_editv', methods: ['GET', 'POST'])]
     public function edit(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
     {
+        $route = $request->attributes->get('_route');
         $this->denyAccessUnlessGranted('ROLE_AUTEUR');
         $form = $this->createForm(LivreType::class, $livre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_livre_index', [], Response::HTTP_SEE_OTHER);
+            if ($route == 'app_livre_editv')
+                return $this->redirectToRoute('app_livre_valider', [], Response::HTTP_SEE_OTHER);
+            else
+                return $this->redirectToRoute('app_livre_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('livre/edit.html.twig', [
             'livre' => $livre,
             'form' => $form,
+            'route' => $route,
         ]);
     }
 
     #[Route('/{id}', name: 'app_livre_delete', methods: ['POST'])]
+    #[Route('/{id}/v', name: 'app_livre_deletev', methods: ['POST'])]
     public function delete(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
     {
+        $route = $request->attributes->get('_route');
         if ($this->isCsrfTokenValid('delete'.$livre->getId(), $request->request->get('_token'))) {
             $entityManager->remove($livre);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_livre_index', [], Response::HTTP_SEE_OTHER);
+        if ($route == "app_livre_deletev")
+            return $this->redirectToRoute('app_livre_valider', [], Response::HTTP_SEE_OTHER);
+        else
+            return $this->redirectToRoute('app_livre_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/validation', name: 'app_livre_validation', methods: ['GET'])]

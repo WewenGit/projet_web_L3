@@ -6,8 +6,11 @@
     <h1>Modifier {{livre.titre}}</h1>
 
     {{ include('livre/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
-
-    <a href="{{ path('app_livre_index') }}">Retourner au catalogue</a>
+    {% if route == 'app_livre_editv' %}
+        <a href="{{ path('app_livre_valider') }}">Retourner au catalogue</a>
+    {% else %}
+        <a href="{{ path('app_livre_index') }}">Retourner au catalogue</a>
+    {% endif %}
     {% if is_granted('ROLE_ADMIN') %}
         {{ include('livre/_delete_form.html.twig') }}
     {% endif %}
