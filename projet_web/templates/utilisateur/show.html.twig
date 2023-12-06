@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Utilisateur</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Pseudo</th>
+                <td>{{ utilisateur.pseudo }}</td>
+            </tr>
+            <tr>
+                <th>Photo_profil</th>
+                <td><img src="{{ utilisateur.photoProfil }}" alt="photoProfilUser"></td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Auteur{% endblock %}
+
+{% block body %}
+    <h1>Auteur</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>PhotoAuteur</th>
+                <td>{{ auteur.photoAuteur }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ auteur.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ auteur.prenom }}</td>
+            </tr>
+            <tr>
+                <th>DateDeNaissance</th>
+                <td>{{ auteur.dateDeNaissance ? auteur.dateDeNaissance|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateDeMort</th>
+                <td>{{ auteur.dateDeMort ? auteur.dateDeMort|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Nationalite</th>
+                <td>{{ auteur.nationalite }}</td>
+            </tr>
+            <tr>
+                <th>Biographie</th>
+                <td>{{ auteur.biographie }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

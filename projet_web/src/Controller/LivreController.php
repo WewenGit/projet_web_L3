@@ -80,6 +80,7 @@ class LivreController extends AbstractController
 
     #[Route('/{id}', name: 'app_livre_show', methods: ['GET'])]
     #[Route('/{id}/v', name: 'app_livre_showv', methods: ['GET'])]
+    #[Route('/{id}/s', name: 'app_livre_show_search', methods: ['GET'])]
     public function show(Livre $livre, Request $request): Response
     {
         $route = $request->attributes->get('_route');

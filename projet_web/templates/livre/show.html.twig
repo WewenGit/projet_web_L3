@@ -8,17 +8,19 @@
     <table class="table">
         <tbody>
             <tr>
+                {% if route != 'app_livre_show_search' %}
                 <th>Id</th>
                 <td>{{ livre.id }}</td>
+                {% endif %}
             </tr>
             <tr>
                 <th>Couverture</th>
                 <td>
                 {% if vich_uploader_asset(livre, 'fichierImage') is null %}
-                        <img src="{{ asset('images/couverture/default.jpg') }}" alt="Couverture de livre par défaut" /> 
-                    {% else %}
-                        <img src="{{ vich_uploader_asset(livre, 'fichierImage')}}" style="width:20%;" alt="Couverture de livre">
-                    {% endif %}
+                    <img src="{{ asset('images/couverture/default.jpg') }}" alt="Couverture de livre par défaut" /> 
+                {% else %}
+                    <img src="{{ vich_uploader_asset(livre, 'fichierImage')}}" style="width:20%;" alt="Couverture de livre">
+                {% endif %}
                 </td>
             </tr>
             <tr>
@@ -34,7 +36,10 @@
     {% if route == 'app_livre_showv' %}
         <a href="{{ path('app_livre_valider') }}">Retourner au catalogue de validation</a>
     {% else %}
-        <a href="{{ path('app_livre_index') }}">Retourner au catalogue</a>
+        {% if route != 'app_livre_show_search' %}
+            <p>{{ route }}</p>
+            <a href="{{ path('app_livre_index') }}">Retourner au catalogue</a>
+        {% endif %}
     {% endif %}
     {% if is_granted('ROLE_ADMIN') %}
         <br>
