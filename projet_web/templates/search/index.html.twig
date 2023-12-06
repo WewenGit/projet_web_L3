@@ -1,0 +1,31 @@
+{% if searchInput is defined %}
+    <p>Search Input: {{ searchInput }}</p>
+{% endif %}
+
+<div>
+{% if books is defined %}
+    {% for book in books %}
+        <div>
+        <h2>{{ book.titre }}</h2>
+        <a href="https://www.example.com"><img src="chemin/vers/votre/image.jpg" alt="Description de l'image"></a>
+
+        </div>
+    {% endfor %}
+{% endif %}
+</div>
+
+<div>
+{% if authors is defined %}
+    {% for author in authors %}
+        <p>Nom de l'auteur: {{ author.nom }}</p>
+    {% endfor %}
+{% endif %}
+</div>
+
+<div>
+{% if users is defined %}
+    {% for user in users %}
+        <p>Pseudo utilisateur: {{ user.pseudo }}</p>
+    {% endfor %}
+{% endif %}
+</div>

@@ -157,24 +157,24 @@ class Livre
         return $this;
     }
 
-    public function getIdGenre(): ?genre
+    public function getIdGenre(): ?Genre
     {
         return $this->idGenre;
     }
 
-    public function setIdGenre(?genre $idGenre): static
+    public function setIdGenre(?Genre $idGenre): static
     {
         $this->idGenre = $idGenre;
 
         return $this;
     }
 
-    public function getIdEditeur(): ?editeur
+    public function getIdEditeur(): ?Editeur
     {
         return $this->idEditeur;
     }
 
-    public function setIdEditeur(?editeur $idEditeur): static
+    public function setIdEditeur(?Editeur $idEditeur): static
     {
         $this->idEditeur = $idEditeur;
 
