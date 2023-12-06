@@ -29,10 +29,10 @@ class Livre
     private Collection $critiques;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
-    private ?genre $idGenre = null;
+    private ?Genre $idGenre = null;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
-    private ?editeur $idEditeur = null;
+    private ?Editeur $idEditeur = null;
 
     #[ORM\ManyToMany(targetEntity: Auteur::class, mappedBy: 'idLivre')]
     private Collection $idAuteur;
@@ -118,24 +118,24 @@ class Livre
         return $this;
     }
 
-    public function getIdGenre(): ?genre
+    public function getIdGenre(): ?Genre
     {
         return $this->idGenre;
     }
 
-    public function setIdGenre(?genre $idGenre): static
+    public function setIdGenre(?Genre $idGenre): static
     {
         $this->idGenre = $idGenre;
 
         return $this;
     }
 
-    public function getIdEditeur(): ?editeur
+    public function getIdEditeur(): ?Editeur
     {
         return $this->idEditeur;
     }
 
-    public function setIdEditeur(?editeur $idEditeur): static
+    public function setIdEditeur(?Editeur $idEditeur): static
     {
         $this->idEditeur = $idEditeur;
 

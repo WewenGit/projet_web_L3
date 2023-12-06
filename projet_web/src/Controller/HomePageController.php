@@ -29,22 +29,32 @@ class HomePageController extends AbstractController
             $repoAuthor = $em->getRepository(Auteur::class);
             $repoUser = $em->getRepository(Utilisateur::class);
 
-            $books = $repoBook->findBy([
-                'titre' => $resp, 
-            ]);
-            $authors = $repoAuthor->findBy([
-                'nom' => $resp,
+            $books = $repoBook->createQueryBuilder('b')
+            ->where('b.titre LIKE :resp')
+            ->setParameter('resp', '%' . $resp . '%')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
 
-            ]);
-            $users = $repoUser->findBy([
-                'pseudo' => $resp, 
-            ]);
+            $authors = $repoAuthor->createQueryBuilder('a')
+            ->where('a.nom LIKE :resp')
+            ->setParameter('resp', '%' . $resp . '%')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+
+            $users = $repoUser->createQueryBuilder('u')
+            ->where('u.pseudo LIKE :resp')
+            ->setParameter('resp', '%' . $resp . '%')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
 
             return $this->render('search/index.html.twig', [
                 'searchInput'=>print_r($resp,true),
-                'books'=>print_r($books,true),
-                'authors'=>print_r($authors,true),
-                'users'=>print_r($users,true),
+                'books'=>$books,
+                'authors'=>$authors,
+                'users'=>$users,
             ]);
         }
 
