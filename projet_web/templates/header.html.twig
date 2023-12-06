@@ -1,7 +1,14 @@
-<header>
-    <a href="{{ path('home') }}" class="btn">Accueil</a>
-    <label>Recherche : </label><input type='text'>
-    <a href="{{ path('app_search') }}" class="btn rounded-pill btn-search px-3">Search</a>
-    <!--<button>Mes listes</button>-->
-    <a href="{{ path('app_login') }}" class="btn rounded-pill btn-connexion px-3">Connexion</a>
+<header class="w-100 px-5 mb-5 container" style="background-color : #7f9bc7;">
+    <div class="row">
+        <a href="{{ path('home') }}" class="btn col-sm">Accueil</a>
+
+        <div class="col-sm">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit">Envoyer</button>
+        {{ form_end(form) }}
+        </div>
+        
+        <a href="{{ path('app_login') }}" class="col-sm btn rounded-pill btn-connexion px-3">Connexion</a>
+    </div>
 </header>

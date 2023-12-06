@@ -5,34 +5,52 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\SearchForm;
+use App\Entity\Livre;
+use App\Entity\Auteur;
+use App\Entity\Utilisateur;
+use Doctrine\ORM\EntityManagerInterface;
 
 class HomePageController extends AbstractController
 {
+
     #[Route('/', name: 'home')]
-    public function notifications(): Response
+    public function firstView(Request $req, EntityManagerInterface $em): Response
     {
 
-        // the template path is the relative file path from `templates/`
-        return $this->render('base.html.twig', []);
-    }
-
-    #[Route('/search', name: 'app_search', methods:['GET'])]
-    public function search(Request $req): Response
-    {
-        $mink=$req->query->get('minkm');
-        $maxk=$req->query->get('maxkm');
-        $priceOrder=$req->query->get('triprix');
-        $brand=$req->query->get('brandSelect');
+        $form = $this->createForm(SearchForm::class);
+        $form->handleRequest($req);
         
-        $vehic = $vehiculeRepository->filterCars($mink, $maxk, $priceOrder,$brand);
 
-        return $this->render('vehicule/index.html.twig', [
-            'vehicules' => $vehic,
-            'kMax' => $maxk,
-            'kMin' => $mink,
-            'priceOrder' => $priceOrder,
-        ]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $resp = ($form->getData())['search_input'];
+
+            $repoBook = $em->getRepository(Livre::class);
+            $repoAuthor = $em->getRepository(Auteur::class);
+            $repoUser = $em->getRepository(Utilisateur::class);
+
+            $books = $repoBook->findBy([
+                'titre' => $resp, 
+            ]);
+            $authors = $repoAuthor->findBy([
+                'nom' => $resp,
+
+            ]);
+            $users = $repoUser->findBy([
+                'pseudo' => $resp, 
+            ]);
+
+            return $this->render('search/index.html.twig', [
+                'searchInput'=>print_r($resp,true),
+                'books'=>print_r($books,true),
+                'authors'=>print_r($authors,true),
+                'users'=>print_r($users,true),
+            ]);
+        }
+
+        return $this->render('base.html.twig', ['form' => $form->createView(),]);
     }
+
 
     #[Route('/profil_detail', name: 'app_profil_detail')]
     public function profil_detail(): Response
