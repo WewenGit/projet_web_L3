@@ -14,7 +14,8 @@ use Doctrine\ORM\EntityManagerInterface;
 class HomePageController extends AbstractController
 {
 
-    #[Route('/', name: 'home')]
+    #[Route('/', name: 'homepage')]
+    #[Route('/home', name: 'home')]
     public function firstView(Request $req, EntityManagerInterface $em): Response
     {
 
@@ -51,10 +52,10 @@ class HomePageController extends AbstractController
             ->getResult();
 
             return $this->render('search/index.html.twig', [
-                'searchInput'=>print_r($resp,true),
                 'books'=>$books,
                 'authors'=>$authors,
                 'users'=>$users,
+                'form'=>$form->createView()
             ]);
         }
 
