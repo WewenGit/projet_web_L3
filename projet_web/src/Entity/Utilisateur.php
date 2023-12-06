@@ -117,6 +117,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->photo_profil;
     }
 
+    public function photo_profil()
+    {
+        return $this->photo_profil;
+    }
+
     public function setPhotoProfil($photo_profil): static
     {
         $this->photo_profil = $photo_profil;

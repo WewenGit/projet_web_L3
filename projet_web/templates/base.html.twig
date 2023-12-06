@@ -31,11 +31,21 @@
                     <a href="{{ path('app_profil_detail') }}" class="btn rounded-pill btn-search px-3">Profil 4</a>
                 </div>
                 <div class="div-livres-genres col-sm">
-                    Livres / genres
-                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Genre 1</a>
-                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Genre 2</a>
-                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Genre 3</a>
-                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Genre 4</a>
+                    {% if genre is defined %}
+                        <h2>{{genre.libelle}}</h2>
+                    {% endif %}
+                    {% if genreBooks is defined %}
+                        {% for book in genreBooks %}
+                        <div>
+                        <h2>{{ book.titre }}</h2>
+                        {% if vich_uploader_asset(book, 'fichierImage') is null %}
+                            <a href="{{ path('app_livre_show_search' , {'id': book.id }) }}"><img src="{{ asset('images/couverture/default.jpg') }}" alt="Couverture de livre par défaut" /></a>
+                        {% else %}
+                            <a href="{{ path('app_livre_show_search' , {'id': book.id }) }}"><img src="{{ vich_uploader_asset(book, 'fichierImage')}}" style="width:20%;" alt="Couverture de livre"></a>
+                        {% endif %}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 </div>
                 <div class="row">

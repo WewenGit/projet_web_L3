@@ -9,6 +9,7 @@ use App\Form\SearchForm;
 use App\Entity\Livre;
 use App\Entity\Auteur;
 use App\Entity\Utilisateur;
+use App\Entity\Genre;
 use Doctrine\ORM\EntityManagerInterface;
 
 class HomePageController extends AbstractController
@@ -22,13 +23,31 @@ class HomePageController extends AbstractController
         $form = $this->createForm(SearchForm::class);
         $form->handleRequest($req);
         
+        $repoBook = $em->getRepository(Livre::class);
+        $repoUser = $em->getRepository(Utilisateur::class);
+        $repoGenre = $em->getRepository(Genre::class);
+
+        $nombreAleatoire = rand(1, 4);
+        $genre=$repoGenre->createQueryBuilder('g')
+        ->where('g.id = :resp')
+        ->setParameter('resp', $nombreAleatoire)
+        ->getQuery()
+        ->getOneOrNullResult();
+
+        $randomBooks = [];
+        if ($genre) {
+            $randomBooks = $repoBook->createQueryBuilder('b')
+                ->where('b.idGenre = :resp')
+                ->setParameter('resp', $genre)
+                ->setMaxResults(4)
+                ->getQuery()
+                ->getResult();
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $resp = ($form->getData())['search_input'];
 
-            $repoBook = $em->getRepository(Livre::class);
             $repoAuthor = $em->getRepository(Auteur::class);
-            $repoUser = $em->getRepository(Utilisateur::class);
 
             $books = $repoBook->createQueryBuilder('b')
             ->where('b.titre LIKE :resp')
@@ -59,7 +78,11 @@ class HomePageController extends AbstractController
             ]);
         }
 
-        return $this->render('base.html.twig', ['form' => $form->createView(),]);
+        return $this->render('base.html.twig', [
+            'form' => $form->createView(),
+            'genreBooks' => $randomBooks,
+            'genre' => $genre,
+        ]);
     }
 
 

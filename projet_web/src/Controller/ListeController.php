@@ -89,6 +89,7 @@ class ListeController extends AbstractController
         // Gérer la soumission du formulaire
         $form->handleRequest($request);
 
+        $listeRepository=$entityManager->getRepository(Liste::class);
         
 
              // Récupérer le nom de la liste depuis le formulaire

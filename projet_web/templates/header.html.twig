@@ -1,6 +1,6 @@
-<header class="w-100 px-5 mb-5 container" style="background-color : #7f9bc7;">
+<header class="w-100 mb-5" style="background-color : #7f9bc7;">
     <div class="row">
-        <a href="{{ path('home') }}" class="btn col-sm">Accueil</a>
+        <a href="{{ path('home') }}" class="btn col-sm">La Biblio'Tech</a>
 
         <div class="col-sm">
         {{ form_start(form) }}
@@ -9,6 +9,14 @@
         {{ form_end(form) }}
         </div>
         
-        <a href="{{ path('app_login') }}" class="col-sm btn rounded-pill btn-connexion px-3">Connexion</a>
+        {% if app.user %}
+        <div class="mb-3 col-sm">
+            <a href="{{ path('app_profil') }}" class="btn rounded-pill btn-connexion px-3">{{ app.user.userIdentifier }}</a>
+            <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+        {% else %}
+            <div class="col-sm"><a href="{{ path('app_login') }}" class="btn rounded-pill btn-connexion px-3">Connexion</a></div>
+        {% endif %}
+        
     </div>
 </header>
