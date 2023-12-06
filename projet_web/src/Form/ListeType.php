@@ -15,9 +15,6 @@ class ListeType extends AbstractType
             ->add('nomListe', null, [
                 'label' => 'Nom : ',
             ])
-            ->add('idLivre', null, [
-                'label' => 'Ajouter un livre : ',
-            ])
         ;
     }
 

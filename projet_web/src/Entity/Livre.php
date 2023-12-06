@@ -7,8 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
+#[Vich\Uploadable]
 class Livre
 {
     #[ORM\Id]
@@ -16,8 +19,15 @@ class Livre
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BLOB)]
-    private $couverture = null;
+    #[Vich\UploadableField(mapping: 'livres', fileNameProperty: 'couverture')]
+    private ?File $fichierImage = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $couverture = null;
+
+    //Champ obligatoire à ajouter pour pouvoir update des fichiers dans la BDD
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $majCouverture = null;
 
     #[ORM\Column(length: 100)]
     private ?string $titre = null;
@@ -34,11 +44,14 @@ class Livre
     #[ORM\ManyToOne(inversedBy: 'livres')]
     private ?Editeur $idEditeur = null;
 
-    #[ORM\ManyToMany(targetEntity: Auteur::class, mappedBy: 'idLivre')]
+    #[ORM\ManyToMany(targetEntity: Auteur::class, inversedBy: 'idLivre')]
     private Collection $idAuteur;
 
     #[ORM\ManyToMany(targetEntity: Liste::class, mappedBy: 'idLivre')]
     private Collection $idListe;
+
+    #[ORM\Column]
+    private ?bool $valide = null;
 
     public function __construct()
     {
@@ -52,6 +65,22 @@ class Livre
         return $this->id;
     }
 
+    public function setFichierImage(?File $fichierImage = null): void
+    {
+        $this->fichierImage = $fichierImage;
+
+        if (null !== $fichierImage) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getFichierImage(): ?File
+    {
+        return $this->fichierImage;
+    }
+
     public function getCouverture()
     {
         return $this->couverture;
@@ -63,6 +92,16 @@ class Livre
 
         return $this;
     }
+
+    public function setMajCouverture(?\DateTimeInterface $majCouverture)
+    {
+        $this->majCouverture = $majCouverture;
+    }
+
+    public function getMajCouverture(): ?\DateTimeInterface
+    {
+        return $this->majCouverture;
+    }   
 
     public function getTitre(): ?string
     {
@@ -192,6 +231,18 @@ class Livre
         if ($this->idListe->removeElement($idListe)) {
             $idListe->removeIdLivre($this);
         }
+
+        return $this;
+    }
+
+    public function isValide(): ?bool
+    {
+        return $this->valide;
+    }
+
+    public function setValide(bool $valide): static
+    {
+        $this->valide = $valide;
 
         return $this;
     }
