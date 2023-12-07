@@ -7,12 +7,12 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                {% if route != 'app_livre_show_search' %}
-                <th>Id</th>
-                <td>{{ livre.id }}</td>
-                {% endif %}
-            </tr>
+            {% if is_granted('ROLE_ADMIN') %}
+                <tr>
+                    <th>Id</th>
+                    <td>{{ livre.id }}</td>
+                </tr>
+            {% endif %}
             <tr>
                 <th>Couverture</th>
                 <td>
