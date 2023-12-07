@@ -31,8 +31,8 @@
                     <a href="{{ path('app_profil_detail') }}" class="btn rounded-pill btn-search px-3">Profil 4</a>
                 </div>
                 <div class="div-livres-genres col-sm">
-                    {% if genre is defined %}
-                        <h2>{{genre.libelle}}</h2>
+                    {% if genre is defined and genre != null %}
+                            <h2>{{genre.libelle}}</h2>
                     {% endif %}
                     {% if genreBooks is defined %}
                         {% for book in genreBooks %}
