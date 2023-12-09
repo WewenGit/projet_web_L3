@@ -14,7 +14,7 @@
 
 {% if app.user != null %}
     {% if utilisateur.pseudo == app.user.userIdentifier %}
-        <a href="{{ path('liste_formulaire') }}" class="btn btn-info">Créer une liste</a>
+        <a href="{{ path('create_list', {'id': utilisateur.id}) }}" class="btn btn-info">Créer une liste</a>
     {% endif %}
 {% endif %}
 

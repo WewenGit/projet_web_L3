@@ -5,10 +5,13 @@
         <div class="col-sm">
         {{ render(controller('App\\Controller\\HeaderController::recherche')) }}
         </div>
-        
+
         {% if app.user %}
         <div class="mb-3 col-sm">
             <a href="{{ path('app_profil') }}" class="btn rounded-pill btn-connexion px-3">{{ app.user.userIdentifier }}</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('admin') }}">Gestion admin</a>
+            {% endif %}
             <a href="{{ path('app_logout') }}">Se déconnecter</a>
         </div>
         {% else %}

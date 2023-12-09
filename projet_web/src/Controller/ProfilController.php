@@ -20,7 +20,4 @@ class ProfilController extends AbstractController
             'utilisateur' => $user,
         ]);
     }
-
-
-
 }
