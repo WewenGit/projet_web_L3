@@ -28,5 +28,5 @@ INSERT INTO `livre_auteur` (`auteur_id`, `livre_id`) VALUES
 #UtilisateurTest, mdp : motdepasse
 #Admin, mdp : motdepasse
 INSERT INTO `utilisateur` (`pseudo`, `roles`, `password`, `id_auteur_id`, `photo_profil`, `mail`, `is_verified`) VALUES
-('UtilisateurTest', '["ROLE_USER"]', '$2y$13$CFRlhsEojimxUfXVhL3oruu/sul8zxRyPiCGpbXTJ.8U0MbUg8fL.', NULL, 'public/images/photo_profil/default.jpg', 'leguayemerance@outlook.fr', 0),
-('Admin', '["ROLE_ADMIN"]', '$2y$13$CFRlhsEojimxUfXVhL3oruu/sul8zxRyPiCGpbXTJ.8U0MbUg8fL.', NULL, 'public/images/photo_profil/default.jpg', 'leguayemerance@outlook.fr', 0);
+('UtilisateurTest', '["ROLE_USER"]', '$2y$13$CFRlhsEojimxUfXVhL3oruu/sul8zxRyPiCGpbXTJ.8U0MbUg8fL.', NULL, 'default.jpg', 'leguayemerance@outlook.fr', 0),
+('Admin', '["ROLE_ADMIN"]', '$2y$13$CFRlhsEojimxUfXVhL3oruu/sul8zxRyPiCGpbXTJ.8U0MbUg8fL.', NULL, 'default.jpg', 'leguayemerance@outlook.fr', 0);

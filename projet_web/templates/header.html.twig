@@ -3,8 +3,7 @@
         <a href="{{ path('home') }}" class="btn col-sm">La Biblio'Tech</a>
 
         <div class="col-sm">
-        {{ form_start(form) }}
-        {{ form_end(form) }}
+        {{ render(controller('App\\Controller\\HeaderController::recherche')) }}
         </div>
         
         {% if app.user %}

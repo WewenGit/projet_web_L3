@@ -3,6 +3,7 @@
 {% block title %}New Liste{% endblock %}
 
 {% block body %}
+    {% include "header.html.twig" %}
     <h1>Créer une nouvelle liste</h1>
 
     {{ include('liste/_form.html.twig') }}

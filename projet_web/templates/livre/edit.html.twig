@@ -3,6 +3,7 @@
 {% block title %}Modifier {{livre.titre}}{% endblock %}
 
 {% block body %}
+{% include "header.html.twig" %}
     <h1>Modifier {{livre.titre}}</h1>
 
     {{ include('livre/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
