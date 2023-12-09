@@ -18,7 +18,7 @@ class LivreController extends AbstractController
     #[Route(['/valider'], name: 'app_livre_valider', methods: ['GET'])]
     public function index(LivreRepository $livreRepository, Request $request): Response
     {
-        $route = $request->attributes->get('_route');;
+        $route = $request->attributes->get('_route');
         if ($route == 'app_livre_valider') {
             return $this->render('livre/valider.html.twig', [
                 'livres' => $livreRepository->findAValider(),

@@ -43,9 +43,13 @@ class ListeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_liste_show', methods: ['GET'])]
-    public function show(Liste $liste): Response
+    #[Route('/{id}/p', name: 'app_liste_show_profil', methods: ['GET'])]
+    #[Route('/{id}/u', name: 'app_liste_show_user', methods: ['GET'])]
+    public function show(Liste $liste, Request $request): Response
     {
+        $route = $request->attributes->get('_route');
         return $this->render('liste/show.html.twig', [
+            'route' => $route,
             'liste' => $liste,
         ]);
     }

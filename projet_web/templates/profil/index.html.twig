@@ -13,15 +13,29 @@
 
 <h2>{{utilisateur.pseudo}}</h2>
 
+<h3>Listes</h3>
 {% if app.user != null %}
     {% if utilisateur.pseudo == app.user.userIdentifier %}
         <a href="{{ path('create_list', {'id': utilisateur.id}) }}" class="btn btn-info">Créer une liste</a>
     {% endif %}
 {% endif %}
-
-{% for liste in listes %}
-    <br>
-    {{ liste.nomListe }}
-{% endfor %}
+<div id='liste'>
+    {% for liste in listes %}
+        {% if app.user != null %}
+            {% if utilisateur.pseudo == app.user.userIdentifier %}
+                <a href="{{ path('app_liste_show_profil', {'id': liste.id}) }}">{{ liste.nomListe }}</a>
+                <br>
+            {% else %}
+                <a href="{{ path('app_liste_show_user', {'id': liste.id}) }}">{{ liste.nomListe }}</a>
+                <br>
+            {% endif %}
+        {% endif %}
+        <ul>
+            {% for livre in liste.idLivre %}
+                <li>{{ livre.titre }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</div>
 
 {% endblock %}
