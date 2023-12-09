@@ -10,6 +10,7 @@
 {% else %}
     <img src="{{ vich_uploader_asset(utilisateur, 'fichierImage')}}" style="width:100px;" alt="Photo d'utilisateur">
 {% endif %}
+
 <h2>{{utilisateur.pseudo}}</h2>
 
 {% if app.user != null %}
@@ -17,5 +18,10 @@
         <a href="{{ path('create_list', {'id': utilisateur.id}) }}" class="btn btn-info">Créer une liste</a>
     {% endif %}
 {% endif %}
+
+{% for liste in listes %}
+    <br>
+    {{ liste.nomListe }}
+{% endfor %}
 
 {% endblock %}
