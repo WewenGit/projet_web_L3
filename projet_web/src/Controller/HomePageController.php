@@ -27,12 +27,23 @@ class HomePageController extends AbstractController
         $repoUser = $em->getRepository(Utilisateur::class);
         $repoGenre = $em->getRepository(Genre::class);
 
-        $nombreAleatoire = rand(1, 4);
-        $genre=$repoGenre->createQueryBuilder('g')
-        ->where('g.id = :resp')
-        ->setParameter('resp', $nombreAleatoire)
-        ->getQuery()
-        ->getOneOrNullResult();
+        $nbLivresGenre=0;
+        //Evite d'afficher une catégorie qui contient 0 livres
+        while ($nbLivresGenre == 0) { 
+            $nombreAleatoire = rand(1, 4);
+            $genre=$repoGenre->createQueryBuilder('g')
+            ->where('g.id = :resp')
+            ->setParameter('resp', $nombreAleatoire)
+            ->getQuery()
+            ->getOneOrNullResult();
+            
+            $nbLivresGenre = $repoBook->createQueryBuilder('livre')
+            ->select('count(livre.id)')
+            ->where('livre.idGenre = :resp')
+            ->setParameter('resp', $genre)
+            ->getQuery()
+            ->getSingleScalarResult();
+        }
 
         $randomBooks = [];
         if ($genre) {
