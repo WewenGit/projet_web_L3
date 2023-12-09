@@ -7,12 +7,12 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                {% if route != 'app_livre_show_search' %}
-                <th>Id</th>
-                <td>{{ livre.id }}</td>
-                {% endif %}
-            </tr>
+            {% if is_granted('ROLE_ADMIN') %}
+                <tr>
+                    <th>Id</th>
+                    <td>{{ livre.id }}</td>
+                </tr>
+            {% endif %}
             <tr>
                 <th>Couverture</th>
                 <td>
@@ -27,6 +27,23 @@
                 <th>Titre</th>
                 <td>{{ livre.titre }}</td>
             </tr>
+            <tr>
+                <th>Auteur(s)</th>
+                <td>
+                {% for auteur in livre.idAuteur %}
+                    {{ auteur.nom }} {{auteur.prenom }}
+                    <br>
+                {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>Genre</th>
+                <td>{{ livre.idGenre ? livre.idGenre.libelle : 'Genre non renseigné' }}</td>
+            </tr>
+            <tr>
+                <th>Editeur</th>
+                 <td>{{ livre.idEditeur ? livre.idEditeur.nomEditeur : 'Editeur inconnu' }}</td>
+            </tr>  
             <tr>
                 <th>Nombre de pages</th>
                 <td>{{ livre.nbPages }}</td>

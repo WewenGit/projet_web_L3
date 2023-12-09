@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profil {{app.user.userIdentifier}}{% endblock %}
+{% block title %}Profil {{utilisateur.pseudo}}{% endblock %}
 
 {% block body %}
 <style>
@@ -9,9 +9,12 @@
 </style>
 
 
-<img src="{{app.user.photo_profil}}" alt = "photo_profil" width=10% height=10%/>
-<h2>{{app.user.userIdentifier}}</h2>
-
+{% if vich_uploader_asset(utilisateur, 'fichierImage') is null %}
+    <img src="{{ asset('images/photo_profil/default.jpg') }}" alt="Photo d'utilisateur par défaut" /> 
+{% else %}
+    <img src="{{ vich_uploader_asset(utilisateur, 'fichierImage')}}" style="width:100px;" alt="Photo d'utilisateur">
+{% endif %}
+<h2>{{utilisateur.pseudo}}</h2>
 
 
 <a href="{{ path('liste_formulaire') }}" class="btn btn-info">Créer une liste</a>

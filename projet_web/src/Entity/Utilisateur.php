@@ -8,9 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
+#[Vich\Uploadable]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -30,8 +32,15 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[Vich\UploadableField(mapping: 'utilisateurs', fileNameProperty: 'photo_profil')]
+    private ?File $fichierImage = null;
+
     #[ORM\Column(length: 255)]
     private ?string $photo_profil = null;
+
+    //Champ obligatoire à ajouter pour pouvoir update des fichiers dans la BDD
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $majPhotoProfil = null;
 
     #[ORM\Column(length: 255)]
     private ?string $mail = null;
@@ -112,12 +121,23 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getPhotoProfil()
+    public function setFichierImage(?File $fichierImage = null): void
     {
-        return $this->photo_profil;
+        $this->fichierImage = $fichierImage;
+
+        if (null !== $fichierImage) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
-    public function photo_profil()
+    public function getFichierImage(): ?File
+    {
+        return $this->fichierImage;
+    }
+
+    public function getPhotoProfil()
     {
         return $this->photo_profil;
     }
@@ -128,6 +148,16 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function setMajPhotoProfil(?\DateTimeInterface $majPhotoProfil)
+    {
+        $this->majPhotoProfil = $majPhotoProfil;
+    }
+
+    public function getMajPhotoProfil(): ?\DateTimeInterface
+    {
+        return $this->majPhotoProfil;
+    }  
 
     public function getMail(): ?string
     {

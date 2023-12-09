@@ -13,8 +13,11 @@ class ProfilController extends AbstractController
     #[Route('/profil', name: 'app_profil')]
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
         return $this->render('profil/index.html.twig', [
             'controller_name' => 'ProfilController',
+            'utilisateur' => $user,
         ]);
     }
 

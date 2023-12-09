@@ -41,7 +41,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            $user->setPhotoProfil('public/images/photo_profil/default.jpg');
+            $user->setPhotoProfil('default.jpg');
 
             $entityManager->persist($user);
             $entityManager->flush();

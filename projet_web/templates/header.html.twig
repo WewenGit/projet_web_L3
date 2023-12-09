@@ -4,15 +4,13 @@
 
         <div class="col-sm">
         {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit">Envoyer</button>
         {{ form_end(form) }}
         </div>
         
         {% if app.user %}
         <div class="mb-3 col-sm">
             <a href="{{ path('app_profil') }}" class="btn rounded-pill btn-connexion px-3">{{ app.user.userIdentifier }}</a>
-            <a href="{{ path('app_logout') }}">Logout</a>
+            <a href="{{ path('app_logout') }}">Se déconnecter</a>
         </div>
         {% else %}
             <div class="col-sm"><a href="{{ path('app_login') }}" class="btn rounded-pill btn-connexion px-3">Connexion</a></div>
