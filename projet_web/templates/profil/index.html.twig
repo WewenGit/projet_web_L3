@@ -4,11 +4,6 @@
 
 {% block body %}
 {% include "header.html.twig" %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
 
 {% if vich_uploader_asset(utilisateur, 'fichierImage') is null %}
     <img src="{{ asset('images/photo_profil/default.jpg') }}" alt="Photo d'utilisateur par défaut" /> 
@@ -17,8 +12,10 @@
 {% endif %}
 <h2>{{utilisateur.pseudo}}</h2>
 
-
-<a href="{{ path('liste_formulaire') }}" class="btn btn-info">Créer une liste</a>
-
+{% if app.user != null %}
+    {% if utilisateur.pseudo == app.user.userIdentifier %}
+        <a href="{{ path('liste_formulaire') }}" class="btn btn-info">Créer une liste</a>
+    {% endif %}
+{% endif %}
 
 {% endblock %}
