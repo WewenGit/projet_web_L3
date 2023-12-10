@@ -3,6 +3,7 @@
 {% block title %}Catalogue de livres{% endblock %}
 
 {% block body %}
+{% include "header.html.twig" %}
     <h1>Catalogue de livres</h1>
 
     {% if is_granted('ROLE_ADMIN') %}

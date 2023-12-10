@@ -21,6 +21,17 @@ class ListeRepository extends ServiceEntityRepository
         parent::__construct($registry, Liste::class);
     }
 
+    public function findByUser($user): array
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.idUtilisateur = :user')
+            ->setParameter('user', $user)
+            ->orderBy('l.nomListe', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 
 //    /**
 //     * @return Liste[] Returns an array of Liste objects

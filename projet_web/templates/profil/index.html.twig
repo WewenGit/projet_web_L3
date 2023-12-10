@@ -3,21 +3,39 @@
 {% block title %}Profil {{utilisateur.pseudo}}{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
+{% include "header.html.twig" %}
 
 {% if vich_uploader_asset(utilisateur, 'fichierImage') is null %}
     <img src="{{ asset('images/photo_profil/default.jpg') }}" alt="Photo d'utilisateur par défaut" /> 
 {% else %}
     <img src="{{ vich_uploader_asset(utilisateur, 'fichierImage')}}" style="width:100px;" alt="Photo d'utilisateur">
 {% endif %}
+
 <h2>{{utilisateur.pseudo}}</h2>
 
-
-<a href="{{ path('liste_formulaire') }}" class="btn btn-info">Créer une liste</a>
-
+<h3>Listes</h3>
+{% if app.user != null %}
+    {% if utilisateur.pseudo == app.user.userIdentifier %}
+        <a href="{{ path('create_list', {'id': utilisateur.id}) }}" class="btn btn-info">Créer une liste</a>
+    {% endif %}
+{% endif %}
+<div id='liste'>
+    {% for liste in listes %}
+        {% if app.user != null %}
+            {% if utilisateur.pseudo == app.user.userIdentifier %}
+                <a href="{{ path('app_liste_show_profil', {'id': liste.id}) }}">{{ liste.nomListe }}</a>
+                <br>
+            {% else %}
+                <a href="{{ path('app_liste_show_user', {'id': liste.id}) }}">{{ liste.nomListe }}</a>
+                <br>
+            {% endif %}
+        {% endif %}
+        <ul>
+            {% for livre in liste.idLivre %}
+                <li>{{ livre.titre }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</div>
 
 {% endblock %}

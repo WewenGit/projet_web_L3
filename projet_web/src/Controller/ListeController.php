@@ -43,9 +43,13 @@ class ListeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_liste_show', methods: ['GET'])]
-    public function show(Liste $liste): Response
+    #[Route('/{id}/p', name: 'app_liste_show_profil', methods: ['GET'])]
+    #[Route('/{id}/u', name: 'app_liste_show_user', methods: ['GET'])]
+    public function show(Liste $liste, Request $request): Response
     {
+        $route = $request->attributes->get('_route');
         return $this->render('liste/show.html.twig', [
+            'route' => $route,
             'liste' => $liste,
         ]);
     }
@@ -79,39 +83,25 @@ class ListeController extends AbstractController
         return $this->redirectToRoute('app_liste_index', [], Response::HTTP_SEE_OTHER);
     }
 
-
-    #[Route('/{id}/creer_list/{var}', name: 'create_list', methods: ['GET'])]
-    public function createList(Request $request, $var, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/creer_list', name: 'create_list', methods: ['GET', 'POST'])]
+    public function createList(Request $request, EntityManagerInterface $entityManager) : Response
     {
-        // Créer un formulaire pour la liste
-        $form = $this->createForm(ListeType::class);
-
-        // Gérer la soumission du formulaire
+        $user = $this->getUser();
+        $liste = new Liste();
+        $form = $this->createForm(ListeType::class, $liste);
         $form->handleRequest($request);
 
-        $listeRepository=$entityManager->getRepository(Liste::class);
-        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $liste->setIdUtilisateur($user);
+            $entityManager->persist($liste);
+            $entityManager->flush();
 
-             // Récupérer le nom de la liste depuis le formulaire
-             $data = $form->getData();
-             $nomListe = $data['nomListe'];
-             
-             $idUtilisateur = 1;
+            return $this->redirectToRoute('app_profil', [], Response::HTTP_SEE_OTHER);
+        }
 
-              // Exécuter la requête SQL brute pour insérer la liste dans la base de données
-            $sql = 'INSERT INTO liste (id_utilisateur_id, nom_liste) VALUES (:idUtilisateur, :nomListe)';
-            $params = ['idUtilisateur' => $idUtilisateur,
-                        'nomListe' => $nomListe];
-
-
-            $entityManager->getConnection()->executeStatement($sql, $params);
-            
-
-            // Optionnel : Rediriger ou renvoyer une réponse
-            return $this->render('liste/index.html.twig', [
-                'listes' => $listeRepository->findAll(),
-            ]);
-
+        return $this->render('liste/new.html.twig', [
+            'liste' => $liste,
+            'form' => $form,
+        ]);
     }
-
 }

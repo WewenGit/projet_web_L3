@@ -3,10 +3,9 @@
 {% block title %}New Liste{% endblock %}
 
 {% block body %}
+    {% include "header.html.twig" %}
     <h1>Créer une nouvelle liste</h1>
 
     {{ include('liste/_form.html.twig') }}
-
-    <a href="{{ path('create_list', {'id': 1, 'var' : 'augmenter'}) }}" class="btn btn-info">Créer ma liste</a>
 
 {% endblock %}

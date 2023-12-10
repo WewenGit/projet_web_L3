@@ -3,6 +3,7 @@
 {% block title %}{{livre.titre}}{% endblock %}
 
 {% block body %}
+{% include "header.html.twig" %}
     <h1>{{livre.titre}}</h1>
 
     <table class="table">
@@ -55,6 +56,7 @@
     {% if route == 'app_livre_showv' %}
         <a href="{{ path('app_livre_valider') }}">Retourner au catalogue de validation</a>
     {% else %}
+        
         {% if route != 'app_livre_show_search' %}
             <p>{{ route }}</p>
             <a href="{{ path('app_livre_index') }}">Retourner au catalogue</a>

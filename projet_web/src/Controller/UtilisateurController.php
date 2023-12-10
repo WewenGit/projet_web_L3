@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
+use App\Entity\Liste;
 use App\Form\UtilisateurType;
+use App\Repository\ListeRepository;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,10 +45,12 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_utilisateur_show', methods: ['GET'])]
-    public function show(Utilisateur $utilisateur): Response
+    public function show(Utilisateur $utilisateur, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('utilisateur/show.html.twig', [
+        $listeRepository = $entityManager->getRepository(Liste::class);
+        return $this->render('profil/index.html.twig', [
             'utilisateur' => $utilisateur,
+            'listes' => $listeRepository->findByUser($utilisateur),
         ]);
     }
 

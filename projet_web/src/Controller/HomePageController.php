@@ -5,7 +5,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Form\SearchForm;
 use App\Entity\Livre;
 use App\Entity\Auteur;
 use App\Entity\Utilisateur;
@@ -19,9 +18,6 @@ class HomePageController extends AbstractController
     #[Route('/home', name: 'home')]
     public function firstView(Request $req, EntityManagerInterface $em): Response
     {
-
-        $form = $this->createForm(SearchForm::class);
-        $form->handleRequest($req);
         
         $repoBook = $em->getRepository(Livre::class);
         $repoUser = $em->getRepository(Utilisateur::class);
@@ -55,61 +51,7 @@ class HomePageController extends AbstractController
                 ->getResult();
         }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $resp = ($form->getData())['search_input'];
-
-            $repoAuthor = $em->getRepository(Auteur::class);
-
-            $books = $repoBook->createQueryBuilder('b')
-            ->where('b.titre LIKE :resp')
-            ->setParameter('resp', '%' . $resp . '%')
-            ->setMaxResults(5)
-            ->getQuery()
-            ->getResult();
-
-            $authors = $repoAuthor->createQueryBuilder('a')
-            ->where('a.nom LIKE :resp')
-            ->setParameter('resp', '%' . $resp . '%')
-            ->setMaxResults(5)
-            ->getQuery()
-            ->getResult();
-
-            $users = $repoUser->createQueryBuilder('u')
-            ->where('u.pseudo LIKE :resp')
-            ->setParameter('resp', '%' . $resp . '%')
-            ->setMaxResults(5)
-            ->getQuery()
-            ->getResult();
-
-            return $this->render('search/index.html.twig', [
-                'books'=>$books,
-                'authors'=>$authors,
-                'users'=>$users,
-                'form'=>$form->createView()
-            ]);
-        }
-
-
-        $listBooks = $repoBook->createQueryBuilder('l')
-        ->select('l', 'COUNT(listes.id) as listCount')
-        ->leftJoin('l.idListe', 'listes')
-        ->addGroupBy('l.id')
-        ->orderBy('listCount', 'DESC')
-        ->setMaxResults(4)
-        ->getQuery()
-        ->getResult();
-
-        $activeProfiles = $repoUser->createQueryBuilder('u')
-        ->select('u', 'COUNT(critique.id) as critCount')
-        ->leftJoin('App\Entity\Critique', 'critique', 'WITH', 'u.id = critique.idUtilisateur')
-        ->addGroupBy('u.id')
-        ->orderBy('critCount', 'DESC')
-        ->setMaxResults(4)
-        ->getQuery()
-        ->getResult();
-
         return $this->render('base.html.twig', [
-            'form' => $form->createView(),
             'genreBooks' => $randomBooks,
             'genre' => $genre,
             'listBooks'=>$listBooks,

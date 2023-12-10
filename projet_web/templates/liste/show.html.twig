@@ -3,24 +3,26 @@
 {% block title %}Liste{% endblock %}
 
 {% block body %}
-    <h1>Liste</h1>
+    {% include "header.html.twig" %}
+    <h1>{{liste.nomListe}}</h1>
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ liste.id }}</td>
-            </tr>
-            <tr>
-                <th>NomListe</th>
-                <td>{{ liste.nomListe }}</td>
-            </tr>
+            <ul>
+                {% for livre in liste.idLivre %}
+                    <li><a href="{{ path('app_livre_show', {'id': livre.id}) }}">{{ livre.titre }}</a></li>
+                {% endfor %}
+            </ul>
         </tbody>
     </table>
 
-    <a href="{{ path('app_liste_index') }}">back to list</a>
-
-    <a href="{{ path('app_liste_edit', {'id': liste.id}) }}">edit</a>
-
-    {{ include('liste/_delete_form.html.twig') }}
+    {% if route == 'app_liste_show_profil' %}
+        <a href="{{ path('app_profil') }}">Retourner au profil</a>
+        <br>
+        <a href="{{ path('app_liste_edit', {'id': liste.id}) }}">Modifier la liste</a>
+        {{ include('liste/_delete_form.html.twig') }}
+    {% endif %}
+    {% if route == 'app_liste_show_user' %}
+        <a href="{{ path('app_utilisateur_show', {'id': liste.idUtilisateur.id}) }}">Retourner au profil</a>
+    {% endif %}
 {% endblock %}
