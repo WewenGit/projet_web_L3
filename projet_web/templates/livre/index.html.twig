@@ -4,6 +4,7 @@
 
 {% block body %}
 {% include "header.html.twig" %}
+    <div class="ps-2">
     <h1>Catalogue de livres</h1>
 
     {% if is_granted('ROLE_ADMIN') %}
@@ -68,5 +69,6 @@
     {% else %}
         <a href="{{ path('app_livre_suggestion') }}" class="btn btn-info">Votre livre n'apparait pas dans notre catalogue ? Suggérer un livre</a>
     {% endif %}
+    </div>
     {% include "footer.html.twig" %}
 {% endblock %}

@@ -4,6 +4,7 @@
 
 {% block body %}
 {% include "header.html.twig" %}
+<div class="ps-3">
 {% if vich_uploader_asset(utilisateur, 'fichierImage') is null %}
     <img src="{{ asset('images/photo_profil/default.jpg') }}" class='d-inline' alt="Photo d'utilisateur par défaut" /> 
 {% else %}
@@ -12,7 +13,6 @@
 <h2 class='d-inline'>{{utilisateur.pseudo}}</h2>
 
 <br>
-
 <h3 class='d-inline'>Listes</h3>
 {% if app.user != null %}
     {% if utilisateur.pseudo == app.user.userIdentifier %}
@@ -38,6 +38,7 @@
             </ul>
         </div>
     {% endfor %}
+</div>
 </div>
 {% include "footer.html.twig" %}
 {% endblock %}
