@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Livre;
+use App\Entity\Critique;
+use App\Entity\Utilisateur;
 use App\Form\LivreType;
+use App\Form\CritiqueType;
 use App\Repository\LivreRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -81,12 +84,78 @@ class LivreController extends AbstractController
     #[Route('/{id}', name: 'app_livre_show', methods: ['GET'])]
     #[Route('/{id}/v', name: 'app_livre_showv', methods: ['GET'])]
     #[Route('/{id}/s', name: 'app_livre_show_search', methods: ['GET'])]
-    public function show(Livre $livre, Request $request): Response
+    #[Route('/{id}/a', name: 'app_livre_show_add', methods: ['GET'])]
+    public function show(Livre $livre, Request $request, EntityManagerInterface $em): Response
     {
+
+        $repoCrit = $em->getRepository(Critique::class);
+        
+        $critiques = $repoCrit->createQueryBuilder('critique')
+        ->select('critique', 'utilisateur.pseudo as pseudoUtilisateur')
+        ->leftJoin('critique.idUtilisateur', 'utilisateur')
+        ->where('critique.idLivre = :idLivre')
+        ->setParameter('idLivre', $livre->getId())
+        ->getQuery()
+        ->getResult();
+
         $route = $request->attributes->get('_route');
+        $form=$this->createForm(CritiqueType::class);
+        $form->handleRequest($request);
+
+        if ($route== 'app_livre_show_add') {
+            return $this->render('livre/show.html.twig', [
+                'livre' => $livre,
+                'route' => $route,
+                'critiques'=>$critiques,
+                'form'=>$form->createView(),
+            ]);
+        }
+
         return $this->render('livre/show.html.twig', [
             'livre' => $livre,
             'route' => $route,
+            'critiques'=>$critiques,
+        ]);
+    }
+
+    #[Route('/{id}/ac/{user}', name: 'app_livre_show_add_confirm', methods: ['GET','POST'])]
+    public function show_add_confirm(Livre $livre, Request $request, EntityManagerInterface $em, Utilisateur $user): Response
+    {
+
+        $repoCrit = $em->getRepository(Critique::class);
+        
+        $critiques = $repoCrit->createQueryBuilder('critique')
+        ->select('critique', 'utilisateur.pseudo as pseudoUtilisateur')
+        ->leftJoin('critique.idUtilisateur', 'utilisateur')
+        ->where('critique.idLivre = :idLivre')
+        ->setParameter('idLivre', $livre->getId())
+        ->getQuery()
+        ->getResult();
+
+        $route = $request->attributes->get('_route');
+        $form=$this->createForm(CritiqueType::class);
+        $form->handleRequest($request);
+
+        if ($route== 'app_livre_show_add_confirm') {
+            if ($form->isSubmitted() && $form->isValid()) {
+                
+                $contenu = $form->get('contenu')->getData();
+                $note = $form->get('note')->getData();
+                $critique = new Critique();
+                $critique->setCommentaire($contenu);
+                $critique->setIdLivre($livre);
+                $critique->setIdUtilisateur($user);
+                $critique->setNote($note);
+                $em->persist($critique);
+                $em->flush();
+        
+            }
+        }
+
+        return $this->render('livre/show.html.twig', [
+            'livre' => $livre,
+            'route' => $route,
+            'critiques'=>$critiques,
         ]);
     }
 

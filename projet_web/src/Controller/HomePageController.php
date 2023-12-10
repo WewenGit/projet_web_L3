@@ -51,9 +51,6 @@ class HomePageController extends AbstractController
                 ->getResult();
         }
 
-       
-
-
         $listBooks = $repoBook->createQueryBuilder('l')
         ->select('l', 'COUNT(listes.id) as listCount')
         ->leftJoin('l.idListe', 'listes')
@@ -71,7 +68,7 @@ class HomePageController extends AbstractController
         ->setMaxResults(4)
         ->getQuery()
         ->getResult();
-
+        
         return $this->render('base.html.twig', [
             'genreBooks' => $randomBooks,
             'genre' => $genre,

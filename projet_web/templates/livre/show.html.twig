@@ -49,15 +49,38 @@
                 <th>Nombre de pages</th>
                 <td>{{ livre.nbPages }}</td>
             </tr>
+            {% for critique in critiques %}
+                <tr>
+                    <th>Critique de {{ critique['pseudoUtilisateur'] }}</th>
+                    <td>
+                    <p>{{ critique[0].commentaire }}
+                    <p>{{ critique[0].note }}/5</p>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
+ {% if app.user %}
+    {% if route != 'app_livre_show_add' %}
+    <a href="{{ path('app_livre_show_add', {'id': livre.id}) }}">Ajouter une critique</a>
+    {% endif %}
+{% endif %}
+{% if route == 'app_livre_show_add' %}
+
+    {{ form_start(form, {'action': path('app_livre_show_add_confirm', {'id': livre.id, 'user': app.user})}) }}
+    {{ form_row(form.contenu) }}
+    {{ form_row(form.note) }}
+    {{ form_row(form.submit) }}
+    {{ form_end(form) }}
+    
+{% endif %}
     
     {% if route == 'app_livre_showv' %}
         <a href="{{ path('app_livre_valider') }}">Retourner au catalogue de validation</a>
     {% else %}
         
-        {% if route != 'app_livre_show_search' %}
+        {% if route not in ['app_livre_show_search','app_livre_show_add_confirm','app_livre_show_add'] %}
             <p>{{ route }}</p>
             <a href="{{ path('app_livre_index') }}">Retourner au catalogue</a>
         {% endif %}
