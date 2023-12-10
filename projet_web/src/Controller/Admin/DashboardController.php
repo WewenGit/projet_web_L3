@@ -8,7 +8,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Utilisateur;
+use App\Entity\DemandesContact;
 use App\Controller\Admin\UtilisateurCrudController;
+use App\Controller\Admin\DemandesContactCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
 class DashboardController extends AbstractDashboardController
@@ -50,6 +52,7 @@ class DashboardController extends AbstractDashboardController
         
         yield MenuItem::linktoRoute('Retourner au site', 'fas fa-home', 'home');
         yield MenuItem::linkToCrud('Utilisateurs', 'fa-solid fa-user', Utilisateur::class);
+        yield MenuItem::linkToCrud('Demandes de contact', 'fa-solid fa-envelope', DemandesContact::class);
         yield MenuItem::section('Livres');
         yield MenuItem::linkToRoute('Catalogue de livres', 'fa-solid fa-book-open', 'app_livre_index');
         yield MenuItem::linkToRoute('Livres en attente de validation', 'fa-solid fa-book', 'app_livre_valider');

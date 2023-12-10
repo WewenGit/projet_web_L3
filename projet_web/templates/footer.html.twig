@@ -1,1 +1,46 @@
-<footer class="w-100 h-10 fixed-bottom" style="background-color: #7f9bc7;">Le footer</footer>
+<footer class="footer text-center text-lg-start text-muted" style="background-color: #7f9bc7;">
+<style>
+  html {
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 30px;
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height : 0px;
+  }
+</style>
+
+  <section class="" style="background-color: #7f9bc7;">
+    <br>
+    <div class="container text-center text-md-start mt-5">
+      <div class="row mt-3">
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+          <h6 class="text-uppercase fw-bold mb-4">
+            La Biblio'Tech
+          </h6>
+          <p>
+            Réalisé par BONSERGENT Owen, GODIVEAU Andréa, LEGUAY Emerance
+          </p>
+        </div>
+
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+          <h6 class="text-uppercase fw-bold mb-4">
+            Navigation
+          </h6>
+          <p>
+            <a href="{{ path('app_livre_index') }}" class="text-reset">Catalogue</a>
+          </p>
+        </div>
+
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+          <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+          <a href="{{ path('app_demandes_contact_new') }}" class="text-reset">Nous contacter</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</footer>

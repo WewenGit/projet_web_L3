@@ -1,21 +1,27 @@
 <header class="w-100 mb-5" style="background-color : #7f9bc7;">
     <div class="row">
-        <a href="{{ path('home') }}" class="btn col-sm">La Biblio'Tech</a>
+        <div class="col-sm">
+            <a href="{{ path('home') }}" class="btn col-sm text-uppercase fw-bold mb-4">La Biblio'Tech</a>
+        </div>
 
         <div class="col-sm">
+            <a href="{{ path('app_livre_index') }}" class="btn col-sm text-uppercase fw-bold mb-4">Catalogue</a>
+        </div>
+
+        <div class="col-sm text-uppercase fw-bold mb-4">
         {{ render(controller('App\\Controller\\HeaderController::recherche')) }}
         </div>
 
         {% if app.user %}
-        <div class="mb-3 col-sm">
+        <div class="mb-3 col-sm ">
             <a href="{{ path('app_profil') }}" class="btn rounded-pill btn-connexion px-3">{{ app.user.userIdentifier }}</a>
             {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('admin') }}">Gestion admin</a>
+                <a href="{{ path('admin') }}" class="link-dark">Gestion admin</a>
             {% endif %}
-            <a href="{{ path('app_logout') }}">Se déconnecter</a>
+            <a href="{{ path('app_logout') }}" class="link-dark">Se déconnecter</a>
         </div>
         {% else %}
-            <div class="col-sm"><a href="{{ path('app_login') }}" class="btn rounded-pill btn-connexion px-3">Connexion</a></div>
+            <div class="col-sm"><a href="{{ path('app_login') }}" class="btn rounded-pill btn-connexion px-3">Se connecter</a></div>
         {% endif %}
         
     </div>

@@ -25,4 +25,5 @@
     {% if route == 'app_liste_show_user' %}
         <a href="{{ path('app_utilisateur_show', {'id': liste.idUtilisateur.id}) }}">Retourner au profil</a>
     {% endif %}
+    {% include "footer.html.twig" %}
 {% endblock %}
