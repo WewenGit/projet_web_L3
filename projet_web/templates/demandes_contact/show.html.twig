@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DemandesContact{% endblock %}
+
+{% block body %}
+{% include "header.html.twig" %}
+    <h1>DemandesContact</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ demandes_contact.id }}</td>
+            </tr>
+            <tr>
+                <th>Mail</th>
+                <td>{{ demandes_contact.Mail }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ demandes_contact.Nom }}</td>
+            </tr>
+            <tr>
+                <th>ObjetDemande</th>
+                <td>{{ demandes_contact.ObjetDemande }}</td>
+            </tr>
+            <tr>
+                <th>Message</th>
+                <td>{{ demandes_contact.Message }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_demandes_contact_index') }}">back to list</a>
+
+    <a href="{{ path('app_demandes_contact_edit', {'id': demandes_contact.id}) }}">edit</a>
+
+    {{ include('demandes_contact/_delete_form.html.twig') }}
+    {% include "footer.html.twig" %}
+{% endblock %}

@@ -15,4 +15,5 @@
     {% if is_granted('ROLE_ADMIN') %}
         {{ include('livre/_delete_form.html.twig') }}
     {% endif %}
+    {% include "footer.html.twig" %}
 {% endblock %}

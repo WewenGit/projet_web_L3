@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formuler une demande de contact{% endblock %}
+
+{% block body %}
+{% include "header.html.twig" %}
+    <h1>Formuler une demande de contact</h1>
+
+    {{ include('demandes_contact/_form.html.twig') }}
+    {% include "footer.html.twig" %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demandes de contact{% endblock %}
+
+{% block body %}
+{% include "header.html.twig" %}
+    <h1>Demandes de contact</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Mail</th>
+                <th>Nom</th>
+                <th>ObjetDemande</th>
+                <th>Message</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for demandes_contact in demandes_contacts %}
+            <tr>
+                <td>{{ demandes_contact.id }}</td>
+                <td>{{ demandes_contact.Mail }}</td>
+                <td>{{ demandes_contact.Nom }}</td>
+                <td>{{ demandes_contact.ObjetDemande }}</td>
+                <td>{{ demandes_contact.Message }}</td>
+                <td>
+                    <a href="{{ path('app_demandes_contact_show', {'id': demandes_contact.id}) }}">show</a>
+                    <a href="{{ path('app_demandes_contact_edit', {'id': demandes_contact.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_demandes_contact_new') }}">Create new</a>
+    {% include "footer.html.twig" %}
+{% endblock %}
