@@ -42,6 +42,8 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/livre/valider, roles: ROLE_ADMIN }
+        - { path: ^/demandes_contact/index, roles: ROLE_ADMIN }
+        - { path: ^/demandes_contact/show, roles: ROLE_ADMIN }
         - { path: ^/livre/new, roles: ROLE_AUTEUR }
         - { path: ^/livre/suggestion, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }
