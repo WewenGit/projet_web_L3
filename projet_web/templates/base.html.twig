@@ -29,6 +29,7 @@
                         {% for profileData in activeProfiles %}
                             {% set userEntity = profileData[0] %}
                             {% set critCount = profileData['critCount'] %}
+                            {% if userEntity.roles[0] != "ROLE_ADMIN" %}
                             <div>
                                 <a href="{{ path('app_utilisateur_show' , {'id': userEntity.id }) }}">{{ userEntity.pseudo }}</a>
                                 {% if critCount is defined and critCount > 1 %}
@@ -37,6 +38,7 @@
                                 <p>A écrit {{ critCount }} critique.</p>
                                 {% endif %}
                             </div>
+                            {% endif %}
                         {% endfor %}
                     {% endif %}
                     

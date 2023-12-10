@@ -51,6 +51,24 @@ class HomePageController extends AbstractController
                 ->getResult();
         }
 
+        $listBooks = $repoBook->createQueryBuilder('l')
+        ->select('l', 'COUNT(listes.id) as listCount')
+        ->leftJoin('l.idListe', 'listes')
+        ->addGroupBy('l.id')
+        ->orderBy('listCount', 'DESC')
+        ->setMaxResults(4)
+        ->getQuery()
+        ->getResult();
+
+        $activeProfiles = $repoUser->createQueryBuilder('u')
+        ->select('u', 'COUNT(critique.id) as critCount')
+        ->leftJoin('App\Entity\Critique', 'critique', 'WITH', 'u.id = critique.idUtilisateur')
+        ->addGroupBy('u.id')
+        ->orderBy('critCount', 'DESC')
+        ->setMaxResults(4)
+        ->getQuery()
+        ->getResult();
+        
         return $this->render('base.html.twig', [
             'genreBooks' => $randomBooks,
             'genre' => $genre,
