@@ -24,15 +24,26 @@
             <div class="container principal_div mx-auto align-middle">
                 <div class="row">
                 <div class="div-profils-actifs col-sm">
-                    <h2>Profils actifs</h2>
-                    <a href="{{ path('app_profil_detail') }}" class="btn rounded-pill btn-search px-3">Profil 1</a>
-                    <a href="{{ path('app_profil_detail') }}" class="btn rounded-pill btn-search px-3">Profil 2</a>
-                    <a href="{{ path('app_profil_detail') }}" class="btn rounded-pill btn-search px-3">Profil 3</a>
-                    <a href="{{ path('app_profil_detail') }}" class="btn rounded-pill btn-search px-3">Profil 4</a>
+                    {% if activeProfiles is defined %}
+                        <h2>Profils les plus actifs</h2>
+                        {% for profileData in activeProfiles %}
+                            {% set userEntity = profileData[0] %}
+                            {% set critCount = profileData['critCount'] %}
+                            <div>
+                                <a href="{{ path('app_utilisateur_show' , {'id': userEntity.id }) }}">{{ userEntity.pseudo }}</a>
+                                {% if critCount is defined and critCount > 1 %}
+                                <p>A écrit {{ critCount }} critiques.</p>
+                                {% else %}
+                                <p>A écrit {{ critCount }} critique.</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
                 </div>
                 <div class="div-livres-genres col-sm">
                     {% if genre is defined and genre != null %}
-                            <h2>{{genre.libelle}}</h2>
+                            <h2>Livre dans le genre : {{genre.libelle}}</h2>
                     {% endif %}
                     {% if genreBooks is defined %}
                         {% for book in genreBooks %}
@@ -50,12 +61,30 @@
                 </div>
                 <div class="row">
                 <div class="div-livres-lotoflistes col-sm">
-                    <h2>Ces livres sont dans beaucoup de listes</h2>
-                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Livre 1</a> 
-                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Livre 2</a>
-                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Livre 3</a>
-                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Livre 4</a>
-                    <a href="{{ path('app_liste_livres') }}" class="btn rounded-pill btn-search px-3">Livre 5</a>   
+                    {% if listBooks is defined %}
+                        <h2>Ces livres sont dans beaucoup de listes</h2>
+                        {% for bookData in listBooks %}
+                            {% set livreEntity = bookData[0] %}
+                            {% set listCount = bookData['listCount'] %}
+                            <div>
+                                <h2>{{ livreEntity.titre }}</h2>
+                                {% if vich_uploader_asset(livreEntity, 'fichierImage') is null %}
+                                    <a href="{{ path('app_livre_show_search' , {'id': livreEntity.id }) }}">
+                                        <img src="{{ asset('images/couverture/default.jpg') }}" alt="Couverture de livre par défaut" />
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('app_livre_show_search' , {'id': livreEntity.id }) }}">
+                                        <img src="{{ vich_uploader_asset(livreEntity, 'fichierImage')}}" style="width:20%;" alt="Couverture de livre">
+                                    </a>
+                                {% endif %}
+                                {% if listCount is defined and listCount > 1 %}
+                                <p>Dans {{ listCount }} listes</p>
+                                {% else %}
+                                <p>Dans {{ listCount }} liste</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 </div>
             </div>
