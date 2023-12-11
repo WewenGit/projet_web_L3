@@ -14,6 +14,11 @@
 
         {% if app.user %}
         <div class="mb-3 col-sm ">
+            {% if vich_uploader_asset(app.user, 'fichierImage') is null %}
+                <img src="{{ asset('images/photo_profil/default.jpg') }}" class='d-inline' alt="Photo d'utilisateur par défaut" /> 
+            {% else %}
+                <img src="{{ vich_uploader_asset(app.user, 'fichierImage')}}" style="width:50px;" class='d-inline' alt="Photo d'utilisateur">
+            {% endif %}
             <a href="{{ path('app_profil') }}" class="btn rounded-pill btn-connexion px-3">{{ app.user.userIdentifier }}</a>
             {% if is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('admin') }}" class="link-dark">Gestion admin</a>
