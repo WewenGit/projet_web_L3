@@ -118,10 +118,10 @@ class LivreController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/ac/{user}', name: 'app_livre_show_add_confirm', methods: ['GET','POST'])]
-    public function show_add_confirm(Livre $livre, Request $request, EntityManagerInterface $em, Utilisateur $user): Response
+    #[Route('/{id}/ac', name: 'app_livre_show_add_confirm', methods: ['GET','POST'])]
+    public function show_add_confirm(Livre $livre, Request $request, EntityManagerInterface $em): Response
     {
-
+        $user = $this->getUser();
         $repoCrit = $em->getRepository(Critique::class);
         
         $critiques = $repoCrit->createQueryBuilder('critique')
