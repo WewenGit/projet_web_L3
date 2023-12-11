@@ -49,6 +49,12 @@
                 <th>Nombre de pages</th>
                 <td>{{ livre.nbPages }}</td>
             </tr>
+        </tbody>
+    </table>
+    <br>
+    <h2>Critiques</h2>
+    <table class="table">
+        <tbody>
             {% for critique in critiques %}
                 <tr>
                     <th>Critique de {{ critique['pseudoUtilisateur'] }}</th>
@@ -57,13 +63,15 @@
                     <p>{{ critique[0].note }}/5</p>
                     </td>
                 </tr>
+            {% else %}
+                Pas de critiques trouvées
             {% endfor %}
         </tbody>
     </table>
 
  {% if app.user %}
     {% if route != 'app_livre_show_add' %}
-    <a href="{{ path('app_livre_show_add', {'id': livre.id}) }}">Ajouter une critique</a>
+        <a href="{{ path('app_livre_show_add', {'id': livre.id}) }}" class="btn btn-info">Ajouter une critique</a>
     {% endif %}
 {% endif %}
 {% if route == 'app_livre_show_add' %}
@@ -75,7 +83,11 @@
     {{ form_end(form) }}
     
 {% endif %}
-    
+    <br>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_livre_edit', {'id': livre.id}) }}" class="btn">Modifier le livre</a>
+        {{ include('livre/_delete_form.html.twig') }}
+    {% endif %}
     {% if route == 'app_livre_showv' %}
         <a href="{{ path('app_livre_valider') }}">Retourner au catalogue de validation</a>
     {% else %}
@@ -83,11 +95,6 @@
         {% if route not in ['app_livre_show_search','app_livre_show_add_confirm','app_livre_show_add'] %}
             <a href="{{ path('app_livre_index') }}">Retourner au catalogue</a>
         {% endif %}
-    {% endif %}
-    {% if is_granted('ROLE_ADMIN') %}
-        <br>
-        <a href="{{ path('app_livre_edit', {'id': livre.id}) }}">Modifier le livre</a>
-        {{ include('livre/_delete_form.html.twig') }}
     {% endif %}
     {% include "footer.html.twig" %}
 {% endblock %}
