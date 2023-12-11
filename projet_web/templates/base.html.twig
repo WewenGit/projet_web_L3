@@ -43,20 +43,20 @@
                     {% endif %}
                     
                 </div>
-                <div class="div-livres-genres col-sm">
+                <div class="div-livres-genres col-sm row">
                     {% if genre is defined and genre != null %}
                             <h2>Livre dans le genre : {{genre.libelle}}</h2>
                     {% endif %}
                     {% if genreBooks is defined %}
                         {% for book in genreBooks %}
-                        <div>
-                        <h2>{{ book.titre }}</h2>
-                        {% if vich_uploader_asset(book, 'fichierImage') is null %}
-                            <a href="{{ path('app_livre_show_search' , {'id': book.id }) }}"><img src="{{ asset('images/couverture/default.jpg') }}" style="width:20%;" alt="Couverture de livre par défaut" /></a>
-                        {% else %}
-                            <a href="{{ path('app_livre_show_search' , {'id': book.id }) }}"><img src="{{ vich_uploader_asset(book, 'fichierImage')}}" style="width:20%;" alt="Couverture de livre"></a>
-                        {% endif %}
-                        </div>
+                            <div class="col-3">
+                            <h4>{{ book.titre }}</h4>
+                            {% if vich_uploader_asset(book, 'fichierImage') is null %}
+                                <a href="{{ path('app_livre_show_search' , {'id': book.id }) }}"><img src="{{ asset('images/couverture/default.jpg') }}" style="width:100%;" alt="Couverture de livre par défaut" /></a>
+                            {% else %}
+                                <a href="{{ path('app_livre_show_search' , {'id': book.id }) }}"><img src="{{ vich_uploader_asset(book, 'fichierImage')}}" style="width:100%;" alt="Couverture de livre"></a>
+                            {% endif %}
+                            </div>
                         {% endfor %}
                     {% endif %}
                 </div>
@@ -69,7 +69,7 @@
                                 {% set livreEntity = bookData[0] %}
                                 {% set listCount = bookData['listCount'] %}
                                 <div>
-                                    <h2>{{ livreEntity.titre }}</h2>
+                                    <h4>{{ livreEntity.titre }}</h4>
                                     {% if vich_uploader_asset(livreEntity, 'fichierImage') is null %}
                                         <a href="{{ path('app_livre_show_search' , {'id': livreEntity.id }) }}">
                                             <img src="{{ asset('images/couverture/default.jpg') }}" style="width:20%;" alt="Couverture de livre par défaut" />

@@ -16,7 +16,6 @@ class ProfilController extends AbstractController
     #[Route('/profil', name: 'app_profil')]
     public function index(EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $listeRepository = $entityManager->getRepository(Liste::class);
         return $this->render('profil/index.html.twig', [

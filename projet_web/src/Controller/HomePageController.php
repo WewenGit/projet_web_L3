@@ -26,7 +26,13 @@ class HomePageController extends AbstractController
         $nbLivresGenre=0;
         //Evite d'afficher une catégorie qui contient 0 livres
         while ($nbLivresGenre == 0) { 
-            $nombreAleatoire = rand(1, 4);
+            $nbGenres = $repoGenre->createQueryBuilder('genre')
+            ->select('count(genre.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+            $nombreAleatoire = rand(1, $nbGenres);
+            
             $genre=$repoGenre->createQueryBuilder('g')
             ->where('g.id = :resp')
             ->setParameter('resp', $nombreAleatoire)
