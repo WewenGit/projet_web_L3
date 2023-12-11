@@ -30,6 +30,9 @@
                     <a href="{{ path('app_liste_show_user', {'id': liste.id}) }}">{{ liste.nomListe }}</a>
                     <br>
                 {% endif %}
+            {% else %}
+                <a href="{{ path('app_liste_show_user', {'id': liste.id}) }}">{{ liste.nomListe }}</a>
+                    <br>
             {% endif %}
             <ul>
                 {% for livre in liste.idLivre %}

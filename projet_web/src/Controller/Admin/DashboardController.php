@@ -57,7 +57,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Auteurs', 'fa-solid fa-pen-nib', Auteur::class);
         yield MenuItem::linkToCrud('Demandes de contact', 'fa-solid fa-envelope', DemandesContact::class);
         yield MenuItem::section('Livres');
-        yield MenuItem::linkToRoute('Catalogue de livres', 'fa-solid fa-book-open', 'app_livre_index');
         yield MenuItem::linkToRoute('Livres en attente de validation', 'fa-solid fa-book', 'app_livre_valider');
     }
 }

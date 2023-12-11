@@ -68,7 +68,7 @@
 {% endif %}
 {% if route == 'app_livre_show_add' %}
 
-    {{ form_start(form, {'action': path('app_livre_show_add_confirm', {'id': livre.id, 'user': app.user})}) }}
+    {{ form_start(form, {'action': path('app_livre_show_add_confirm', {'id': livre.id, 'user': app.user.userIdentifier })}) }}
     {{ form_row(form.contenu) }}
     {{ form_row(form.note) }}
     {{ form_row(form.submit) }}
@@ -81,7 +81,6 @@
     {% else %}
         
         {% if route not in ['app_livre_show_search','app_livre_show_add_confirm','app_livre_show_add'] %}
-            <p>{{ route }}</p>
             <a href="{{ path('app_livre_index') }}">Retourner au catalogue</a>
         {% endif %}
     {% endif %}
