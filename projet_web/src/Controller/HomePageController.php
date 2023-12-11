@@ -35,8 +35,10 @@ class HomePageController extends AbstractController
             
             $nbLivresGenre = $repoBook->createQueryBuilder('livre')
             ->select('count(livre.id)')
-            ->where('livre.idGenre = :resp')
+            ->andWhere('livre.idGenre = :resp')
             ->setParameter('resp', $genre)
+            ->andWhere('livre.valide = :val')
+            ->setParameter('val', 1)
             ->getQuery()
             ->getSingleScalarResult();
         }
@@ -44,8 +46,10 @@ class HomePageController extends AbstractController
         $randomBooks = [];
         if ($genre) {
             $randomBooks = $repoBook->createQueryBuilder('b')
-                ->where('b.idGenre = :resp')
+                ->andWhere('b.idGenre = :resp')
                 ->setParameter('resp', $genre)
+                ->andWhere('b.valide = :val')
+                ->setParameter('val', 1)
                 ->setMaxResults(4)
                 ->getQuery()
                 ->getResult();
@@ -54,6 +58,8 @@ class HomePageController extends AbstractController
         $listBooks = $repoBook->createQueryBuilder('l')
         ->select('l', 'COUNT(listes.id) as listCount')
         ->leftJoin('l.idListe', 'listes')
+        ->andWhere('l.valide = :val')
+        ->setParameter('val', 1)
         ->addGroupBy('l.id')
         ->orderBy('listCount', 'DESC')
         ->setMaxResults(4)
