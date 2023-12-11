@@ -22,7 +22,7 @@ class LivreController extends AbstractController
     public function index(LivreRepository $livreRepository, Request $request): Response
     {
         $route = $request->attributes->get('_route');
-        if ($route == 'app_livre_valider') {
+        if ($route == 'app_livre_valider' || $route == 'admin') {
             return $this->render('livre/valider.html.twig', [
                 'livres' => $livreRepository->findAValider(),
             ]);
